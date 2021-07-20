@@ -1,9 +1,11 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +17,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -41,6 +45,7 @@ public class Main extends Application {
         Button submit = new Button("Pick Up");
         ui.add(submit, 0, 2);
         submit.setFocusTraversable(false);
+        submit.setOnAction(this::handle);
 
         BorderPane borderPane = new BorderPane();
 
@@ -54,6 +59,12 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    private void handle(ActionEvent actionEvent) {
+        if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.WEAPON){
+            map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
+        }
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {

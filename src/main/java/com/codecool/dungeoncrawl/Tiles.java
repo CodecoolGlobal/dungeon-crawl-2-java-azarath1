@@ -23,12 +23,16 @@ public class Tiles {
     }
 
     static {
+        //environment
         tileMap.put("empty", new Tile(0, 0));
         tileMap.put("wall", new Tile(10, 17));
         tileMap.put("floor", new Tile(2, 0));
+        //player
         tileMap.put("player", new Tile(27, 0));
+        //monsters
         tileMap.put("skeleton", new Tile(29, 6));
         tileMap.put("spider", new Tile(28, 5));
+        tileMap.put("ghost", new Tile(27, 6));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

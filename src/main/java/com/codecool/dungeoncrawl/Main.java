@@ -38,8 +38,8 @@ public class Main extends Application {
         ui.add(healthLabel, 1, 0);
 
         //Pick up Button
-        Button submit = new Button("Pick Up");
-        ui.add(submit, 0, 2);
+//        Button submit = new Button("Pick Up");
+//        ui.add(submit, 0, 2);
 
         BorderPane borderPane = new BorderPane();
 

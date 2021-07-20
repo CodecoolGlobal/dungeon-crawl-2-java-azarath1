@@ -65,6 +65,9 @@ public class Main extends Application {
         if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.WEAPON){
             map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
         }
+        if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.KEY){
+            map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
+        }
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {

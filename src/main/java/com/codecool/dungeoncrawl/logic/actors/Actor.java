@@ -35,4 +35,8 @@ public abstract class Actor implements Drawable {
     public int getY() {
         return cell.getY();
     }
+
+    public int getDamage() {
+        return damage;
+    }
 }

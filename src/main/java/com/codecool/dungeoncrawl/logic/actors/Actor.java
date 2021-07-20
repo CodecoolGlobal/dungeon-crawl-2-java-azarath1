@@ -16,7 +16,7 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if(!checkCollisionWithWall(nextCell)) {
+        if(!checkCollisionWithWall(nextCell) && !checkCollisionWithMonster(nextCell)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;

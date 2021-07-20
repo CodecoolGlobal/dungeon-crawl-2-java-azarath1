@@ -31,7 +31,6 @@ public abstract class Actor implements Drawable {
         List<String> monsters = List.of("spider", "ghost", "skeleton");
         if(nextCell.getActor() != null){
             String actorType = nextCell.getActor().getTileName();
-            System.out.println(nextCell.getActor().getTileName());
             return monsters.contains(actorType);
         }
         return false;

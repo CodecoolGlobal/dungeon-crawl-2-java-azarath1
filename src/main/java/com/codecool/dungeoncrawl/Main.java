@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Weapon;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -20,6 +21,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
     int CANVAS_WIDTH = 20;
@@ -80,35 +83,58 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                map.getPlayer().attack(0, -1);
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                map.getPlayer().attack(0, 1);
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                map.getPlayer().attack(-1, 0);
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                map.getPlayer().attack(1, 0);
                 refresh();
                 break;
         }
     }
 
     private void refresh() {
+        int startX = map.getPlayer().getX() - CANVAS_WIDTH / 2;
+        if (startX < 0) startX = 0;
+        if (startX + CANVAS_WIDTH >= map.getWidth()) startX = map.getWidth() - CANVAS_WIDTH;
+        int endX = startX + CANVAS_WIDTH;
+        int startY = map.getPlayer().getY() - CANVAS_HEIGHT / 2;
+        if (startY < 0) startY = 0;
+        if (startY + CANVAS_HEIGHT >= map.getHeight()) startY = map.getHeight() - CANVAS_HEIGHT;
+        int endY = startY + CANVAS_HEIGHT;
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
+        List<Actor> actors = new ArrayList<>();
+        for (int i = 0; i < map.getWidth(); i++)
+            for (int j = 0; j < map.getHeight(); j++)
+                if (map.getCell(i, j).getActor() != null)
+                    actors.add(map.getCell(i, j).getActor());
+        for (Actor a : actors)
+            a.update();
+        int canvasX = 0;
+        for (int x = startX; x < endX; x++) {
+            int canvasY = 0;
+            for (int y = startY; y < endY; y++) {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
+                    Tiles.drawTile(context, cell.getActor(), x, y, canvasX, canvasY);
                 } else {
-                    Tiles.drawTile(context, cell, x, y);
+                    Tiles.drawTile(context, cell, x, y, canvasX, canvasY);
                 }
+                canvasY++;
             }
+            canvasX++;
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
     }

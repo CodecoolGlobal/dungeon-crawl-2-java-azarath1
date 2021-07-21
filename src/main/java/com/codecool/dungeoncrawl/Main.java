@@ -43,18 +43,19 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
+        ui.setPadding(new Insets(20));
+        ui.setVgap(2);
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Inventory: "+ map.getPlayer().getInventoryString()),0,4);
-        ui.add(inventoryLabel,0,4);
+        ui.add(new Label(""), 1, 1);
+        ui.add(healthLabel, 1, 1);
+        ui.add(new Label("Inventory: "), 1, 3);
+        ui.add(inventoryLabel,1,3);
 
 
         //Pick up Button
 
         Button submit = new Button("Pick Up");
-        ui.add(submit, 0, 2);
+        ui.add(submit, 1, 5);
         submit.setFocusTraversable(false);
         submit.setOnAction(this::handle);
 
@@ -81,6 +82,7 @@ public class Main extends Application {
             map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
             map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
         }
+        inventoryLabel.setText("");
         inventoryLabel.setText("Inventory: "+map.getPlayer().getInventoryString());
     }
 
@@ -141,6 +143,6 @@ public class Main extends Application {
             }
             canvasX++;
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
+        healthLabel.setText("Health: " + map.getPlayer().getHealth());
     }
 }

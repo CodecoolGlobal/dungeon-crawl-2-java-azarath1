@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -19,6 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -94,6 +97,13 @@ public class Main extends Application {
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        List<Actor> actors = new ArrayList<>();
+        for (int i = 0; i < map.getWidth(); i++)
+            for (int j = 0; j < map.getHeight(); j++)
+                if (map.getCell(i, j).getActor() != null)
+                    actors.add(map.getCell(i, j).getActor());
+        for (Actor a : actors)
+            a.update();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);

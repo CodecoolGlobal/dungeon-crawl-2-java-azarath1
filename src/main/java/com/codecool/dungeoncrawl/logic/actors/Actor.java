@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Actor implements Drawable {
@@ -11,18 +12,36 @@ public abstract class Actor implements Drawable {
     private int health = 10;
     private int damage = 5;
     private boolean enemy = false;
+    ArrayList<Actor> inventory = new ArrayList<>();
 
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
         this.cell.setDefaultActor(this);
     }
+    public void addToInventory(Actor item){
+        inventory.add(item);
+        for (int i = 0; i < inventory.size(); i++) {
+            System.out.println(inventory.get(i).getName());
+        }
+    }
+    public String getInventoryString(){
+        String content = "";
+        for (int i = 0; i < inventory.size(); i++) {
+            if(i == inventory.size()){
+                content= content + inventory.get(i).getName();
+            }else{
+                content= content + inventory.get(i).getName()+ ", ";
+            }
 
+        }
+        return content;
+    }
 
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if(!checkCollisionWithWall(nextCell) && !checkCollisionWithMonster(nextCell) && !this.getTileName().equals("ghost")) {
+        if(!checkCollisionWithWall(nextCell) && !checkCollisionWithDoor(nextCell) && !checkCollisionWithMonster(nextCell) && !this.getTileName().equals("ghost")) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -30,9 +49,16 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+        }else if(checkCollisionWithDoor(nextCell) && getInventoryString().contains("Key")){
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
         }
     }
 
+    public ArrayList<Actor> getInventory() {
+        return inventory;
+    }
 
     public void update() {}
   
@@ -43,6 +69,10 @@ public abstract class Actor implements Drawable {
     public boolean checkCollisionWithWall(Cell nextCell){
         return nextCell.getTileName().equals("wall");
     }
+    public boolean checkCollisionWithDoor(Cell nextCell){
+        return nextCell.getTileName().equals("door");
+    }
+
 
     public boolean checkCollisionWithMonster(Cell nextCell){
         List<String> monsters = List.of("spider", "ghost", "skeleton");
@@ -52,6 +82,7 @@ public abstract class Actor implements Drawable {
         }
         return false;
     }
+
 
     public int getHealth() {
         return health;

@@ -30,7 +30,7 @@ public class Tiles {
         tileMap.put("wall", new Tile(10, 17));
         tileMap.put("floor", new Tile(2, 0));
         tileMap.put("fence", new Tile(0, 18));
-        tileMap.put("stairs", new Tile(3,6));
+        tileMap.put("door", new Tile(3,4));
         //player
         tileMap.put("player", new Tile(27, 0));
         //monsters

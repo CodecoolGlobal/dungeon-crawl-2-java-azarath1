@@ -57,7 +57,7 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
-        borderPane.setRight(ui);
+        borderPane.setLeft(ui);
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);

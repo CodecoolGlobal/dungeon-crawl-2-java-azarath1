@@ -9,6 +9,7 @@ public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
     private int damage = 5;
+    private boolean enemy = false;
 
     public Actor(Cell cell) {
         this.cell = cell;

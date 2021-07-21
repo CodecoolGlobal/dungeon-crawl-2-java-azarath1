@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 public class Cell implements Drawable {
     private CellType type;
     private Actor actor;
+    private Actor defaultActor;
     private GameMap gameMap;
     private int x, y;
 
@@ -13,10 +14,19 @@ public class Cell implements Drawable {
         this.x = x;
         this.y = y;
         this.type = type;
+
     }
 
     public CellType getType() {
         return type;
+    }
+
+    public Actor getDefaultActor() {
+        return defaultActor;
+    }
+
+    public void setDefaultActor(Actor defaultActor) {
+        this.defaultActor = defaultActor;
     }
 
     public void setType(CellType type) {

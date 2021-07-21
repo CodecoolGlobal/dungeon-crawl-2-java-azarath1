@@ -7,14 +7,17 @@ import java.util.List;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
+    private String name;
     private int health = 10;
     private int damage = 5;
-    private boolean enemy = false;
 
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
+        this.cell.setDefaultActor(this);
     }
+
+
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
@@ -25,7 +28,10 @@ public abstract class Actor implements Drawable {
         }
     }
 
-    public void update() {}
+    public String getName() {
+        return name;
+    }
+
 
     public boolean checkCollisionWithWall(Cell nextCell){
         return nextCell.getTileName().equals("wall");
@@ -60,31 +66,11 @@ public abstract class Actor implements Drawable {
         return cell.getY();
     }
 
-    public void attack(int x, int y) {
-        Actor target = cell.getNeighbor(x, y).getActor();
-        if (target != null && target.isEnemy() != this.isEnemy()) target.damageDone(damage);
-    }
-
     public int getDamage() {
         return damage;
     }
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public void damageDone(int damage) {
-        health -= damage;
-        if (health <= 0) death();
-    }
-
-    public boolean isEnemy() { return enemy; }
-
-    public void setEnemy() {
-        this.enemy = true;
-    }
-
-    public void death(){
-        getCell().setActor(null);
     }
 }

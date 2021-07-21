@@ -4,7 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
-import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Weapon;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -20,8 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -45,6 +43,7 @@ public class Main extends Application {
         ui.add(healthLabel, 1, 0);
 
         //Pick up Button
+
         Button submit = new Button("Pick Up");
         ui.add(submit, 0, 2);
         submit.setFocusTraversable(false);
@@ -66,9 +65,11 @@ public class Main extends Application {
 
     private void handle(ActionEvent actionEvent) {
         if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.WEAPON){
+            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
             map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
         }
         if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.KEY){
+            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
             map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
         }
     }
@@ -77,22 +78,18 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
-                map.getPlayer().attack(0, -1);
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
-                map.getPlayer().attack(0, 1);
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
-                map.getPlayer().attack(-1, 0);
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
-                map.getPlayer().attack(1, 0);
                 refresh();
                 break;
         }
@@ -101,13 +98,6 @@ public class Main extends Application {
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        List<Actor> actors = new ArrayList<>();
-        for (int i = 0; i < map.getWidth(); i++)
-            for (int j = 0; j < map.getHeight(); j++)
-                if (map.getCell(i, j).getActor() != null)
-                    actors.add(map.getCell(i, j).getActor());
-        for (Actor a : actors)
-            a.update();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);

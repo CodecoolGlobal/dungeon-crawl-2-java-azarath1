@@ -25,6 +25,8 @@ public abstract class Actor implements Drawable {
         }
     }
 
+    public void update() {}
+
     public boolean checkCollisionWithWall(Cell nextCell){
         return nextCell.getTileName().equals("wall");
     }

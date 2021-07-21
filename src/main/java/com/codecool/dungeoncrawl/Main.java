@@ -33,6 +33,7 @@ public class Main extends Application {
             CANVAS_HEIGHT * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label inventoryLabel = new Label();
 
     public static void main(String[] args) {
         launch(args);
@@ -46,6 +47,9 @@ public class Main extends Application {
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+        ui.add(new Label("Inventory: "+ map.getPlayer().getInventoryString()),0,4);
+        ui.add(inventoryLabel,0,4);
+
 
         //Pick up Button
 
@@ -77,6 +81,7 @@ public class Main extends Application {
             map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
             map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
         }
+        inventoryLabel.setText("Inventory: "+map.getPlayer().getInventoryString());
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {

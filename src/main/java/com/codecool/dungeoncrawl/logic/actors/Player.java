@@ -17,6 +17,18 @@ public class Player extends Actor {
             System.out.println(inventory.get(i).getName());
         }
     }
+    public String getInventoryString(){
+        String content = "";
+        for (int i = 0; i < inventory.size(); i++) {
+            if(i == inventory.size()){
+                content= content + inventory.get(i).getName();
+            }else{
+                content= content + inventory.get(i).getName()+ ", ";
+            }
+
+        }
+        return content;
+    }
     public String getTileName() {
         return "player";
     }

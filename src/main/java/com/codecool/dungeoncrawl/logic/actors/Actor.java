@@ -78,6 +78,10 @@ public abstract class Actor implements Drawable {
 
     public boolean isEnemy() { return enemy; }
 
+    public void setEnemy(boolean enemy) {
+        this.enemy = enemy;
+    }
+
     public void death(){
         getCell().setActor(null);
     }

@@ -66,6 +66,11 @@ public abstract class Actor implements Drawable {
         this.damage = damage;
     }
 
+    public void damageDone(int damage) {
+        health -= damage;
+        if (health <= 0) death();
+    }
+
     public void death(){
         getCell().setActor(null);
     }

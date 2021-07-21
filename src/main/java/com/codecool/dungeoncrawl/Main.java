@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 import java.awt.*;
 
 public class Main extends Application {
+    int CANVAS_WIDTH = 20;
+    int CANVAS_HEIGHT = 15;
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,

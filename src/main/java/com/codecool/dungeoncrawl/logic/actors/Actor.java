@@ -58,6 +58,11 @@ public abstract class Actor implements Drawable {
         return cell.getY();
     }
 
+    public void attack(int x, int y) {
+        Actor target = cell.getNeighbor(x, y).getActor();
+        if (target != null && target.isEnemy() != this.isEnemy()) target.damageDone(damage);
+    }
+
     public int getDamage() {
         return damage;
     }

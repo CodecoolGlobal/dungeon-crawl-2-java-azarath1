@@ -71,6 +71,8 @@ public abstract class Actor implements Drawable {
         if (health <= 0) death();
     }
 
+    public boolean isEnemy() { return enemy; }
+
     public void death(){
         getCell().setActor(null);
     }

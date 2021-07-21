@@ -29,6 +29,7 @@ public class Tiles {
         tileMap.put("empty", new Tile(0, 0));
         tileMap.put("wall", new Tile(10, 17));
         tileMap.put("floor", new Tile(2, 0));
+        tileMap.put("fence", new Tile(0, 18));
         //player
         tileMap.put("player", new Tile(27, 0));
         //monsters

@@ -44,6 +44,9 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
                             break;
+                        case 'e':
+                            cell.setType(CellType.STAIRS);
+                            break;
                         case 'w':
                             cell.setType(CellType.WEAPON);
                             new Weapon(cell,"Sword");

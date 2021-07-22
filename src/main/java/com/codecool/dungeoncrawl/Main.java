@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
+    Scene menu;
     int CANVAS_WIDTH = 20;
     int CANVAS_HEIGHT = 15;
     GameMap map = MapLoader.loadMap();

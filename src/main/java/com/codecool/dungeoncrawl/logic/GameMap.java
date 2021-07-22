@@ -28,6 +28,14 @@ public class GameMap {
         return cells;
     }
 
+    public boolean nextLevel() {
+        Cell characterCell = player.getCell();
+        if (characterCell.getType() == CellType.STAIRS) {
+            return true;
+        }
+        else return false;
+    }
+
 //    public ArrayList<ArrayList<Integer>> getFloorCells() {
 //        ArrayList<ArrayList<Integer>> emptyFloorCellCoordinates = new ArrayList<>();
 //        for (int i = 0; i < cells.length; i++) {

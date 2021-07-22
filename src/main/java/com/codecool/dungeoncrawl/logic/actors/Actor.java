@@ -3,33 +3,42 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Actor implements Drawable {
-    protected Cell cell;
+    private Cell cell;
     private String name;
     private int health = 10;
     private int damage = 5;
-    private int turnCount = 0;
     private boolean enemy = false;
+    ArrayList<Actor> inventory = new ArrayList<>();
 
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
         this.cell.setDefaultActor(this);
     }
+    public void addToInventory(Actor item){
+        inventory.add(item);
+    }
+    public String getInventoryString(){
+        String content = "";
+        for (int i = 0; i < inventory.size(); i++) {
+            if(i == inventory.size()){
+                content= content + inventory.get(i).getName();
+            }else{
+                content= content + inventory.get(i).getName()+ ", ";
+            }
 
+        }
+        return content;
+    }
 
 
     public void move(int dx, int dy) {
-        turnCount += 1;
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if(this.getTileName().equals("necromancer") && turnCount % 3 == 0){
-//            Cell nextCellToTeleport = cell.getTeleportLocation(dx, dy);
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
-        } else if(!checkCollisionWithWall(nextCell) && !checkCollisionWithMonster(nextCell) && !this.getTileName().equals("ghost")) {
+        if(!checkCollisionWithWall(nextCell) && !checkCollisionWithDoor(nextCell) && !checkCollisionWithMonster(nextCell) && !this.getTileName().equals("ghost")) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -37,18 +46,19 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+        }else if(checkCollisionWithDoor(nextCell) && getInventoryString().contains("Key")){
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
         }
     }
 
-    public void move(Cell targetCell){
-        cell.setActor(null);
-        targetCell.setActor(this);
-        cell = targetCell;
+    public ArrayList<Actor> getInventory() {
+        return inventory;
     }
 
-
     public void update() {}
-
+  
     public String getName() {
         return name;
     }
@@ -56,6 +66,10 @@ public abstract class Actor implements Drawable {
     public boolean checkCollisionWithWall(Cell nextCell){
         return nextCell.getTileName().equals("wall");
     }
+    public boolean checkCollisionWithDoor(Cell nextCell){
+        return nextCell.getTileName().equals("door");
+    }
+
 
     public boolean checkCollisionWithMonster(Cell nextCell){
         List<String> monsters = List.of("spider", "ghost", "skeleton");
@@ -65,6 +79,7 @@ public abstract class Actor implements Drawable {
         }
         return false;
     }
+
 
     public int getHealth() {
         return health;
@@ -88,7 +103,16 @@ public abstract class Actor implements Drawable {
 
     public void attack(int x, int y) {
         Actor target = cell.getNeighbor(x, y).getActor();
-        if (target != null && target.isEnemy() != this.isEnemy()) target.damageDone(damage);
+        List<String> monsters = List.of("spider", "ghost", "skeleton");
+        if (target != null && target.isEnemy() != this.isEnemy()){
+            target.damageDone(damage);
+            if(monsters.contains(target.getTileName())){
+                System.out.println(target.getDamage());
+                target.setDamage(target.getDamage()-3);
+                System.out.println(target.getDamage());
+            }
+
+        }
     }
 
     public int getDamage() {
@@ -122,6 +146,6 @@ public abstract class Actor implements Drawable {
     }
 
     public void death(){
-//        getCell().setActor(null);
+        getCell().setActor(null);
     }
 }

@@ -39,6 +39,9 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
     Label attackLabel = new Label();
+    Label nameLabel = new Label();
+    Label playerLabel = new Label();
+    Label modeLabel = new Label();
 
     public static void main(String[] args) {
         launch(args);
@@ -66,15 +69,19 @@ public class Main extends Application {
         //GAME LEVEL 1 SCENE
         //*GridPane
         GridPane ui = new GridPane();
+        ui.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(20));
-        ui.setVgap(2);
+        ui.setVgap(4);
         ui.add(new Label(""), 1, 2);
         ui.add(healthLabel, 1, 2);
+        healthLabel.setTextFill(Color.web("#5EB500", 0.9));
         ui.add(new Label(""), 1, 4);
         ui.add(attackLabel, 1, 4);
+        attackLabel.setTextFill(Color.web("#DF2302", 0.9));
         ui.add(new Label(""), 1, 6);
         ui.add(inventoryLabel, 1, 6);
+        inventoryLabel.setTextFill(Color.web("#DF2302", 0.9));
 
         //*Pick up Button
         Button submit = new Button("Pick Up");
@@ -94,13 +101,20 @@ public class Main extends Application {
             public void handle(ActionEvent e) {
                 CHAR_NAME = userTextField.getText();
                 primaryStage.setScene(scene);
-                ui.add(new Label("Player: "), 1, 0);
-                ui.add(new Label(CHAR_NAME), 1, 1);
+                playerLabel.setText("Player: ");
+                ui.add(playerLabel, 1, 0);
+                playerLabel.setTextFill(Color.web("#F4FF01", 0.9));
+                nameLabel.setText(CHAR_NAME);
+                nameLabel.setTextFill(Color.web("#F4FF01", 0.9));
+                ui.add(nameLabel, 1, 1);
                 if (CHAR_NAME.equals("Konrád") ||
                         CHAR_NAME.equals("Gergő") ||
                         CHAR_NAME.equals("Roli")) {
                     map.getPlayer().setHealth(999);
                     map.getPlayer().setGodMode();
+                    modeLabel.setText("GOD MODE ON");
+                    ui.add(modeLabel, 1, 9);
+                    modeLabel.setTextFill(Color.web("#FF00E8", 0.9));
                     refresh();
                 }
             }
@@ -185,10 +199,12 @@ public class Main extends Application {
             }
             canvasX++;
         }
+
         if (map.nextLevel()) {
             map = MapLoader.loadMap();
             refresh();
         }
+
         healthLabel.setText("Health: " + map.getPlayer().getHealth());
         inventoryLabel.setText("Inventory: " + map.getPlayer().getInventoryString());
         attackLabel.setText("Strength: " + map.getPlayer().getDamage());

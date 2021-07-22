@@ -104,6 +104,17 @@ public abstract class Actor implements Drawable {
         if (health <= 0) death();
     }
 
+    public int getMostPowerfulWeaponAttack(){
+        int last = 0;
+        for (int i = 0; i < inventory.size(); i++) {
+
+            if(inventory.get(i) instanceof Weapon && last<inventory.get(i).getDamage()){
+                last = inventory.get(i).getDamage();
+            }
+        }
+        return damage+last;
+    }
+
     public boolean isEnemy() { return enemy; }
 
     public void setEnemy() {

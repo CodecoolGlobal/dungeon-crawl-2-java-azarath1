@@ -38,6 +38,7 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
+    Label attackLabel = new Label();
 
     public static void main(String[] args) {
         launch(args);
@@ -71,12 +72,15 @@ public class Main extends Application {
         ui.setVgap(2);
         ui.add(new Label(""), 1, 1);
         ui.add(healthLabel, 1, 1);
-        ui.add(new Label("Inventory: "), 1, 3);
-        ui.add(inventoryLabel,1,3);
+        ui.add(new Label(""),1,4);
+        ui.add(attackLabel,1,4);
+        ui.add(new Label(""), 1, 6);
+        ui.add(inventoryLabel,1,6);
+
 
         //*Pick up Button
         Button submit = new Button("Pick Up");
-        ui.add(submit, 1, 5);
+        ui.add(submit, 1, 8);
         submit.setFocusTraversable(false);
         submit.setOnAction(this::handle);
 
@@ -118,13 +122,17 @@ public class Main extends Application {
         if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.WEAPON){
             map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
             map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
+            map.getPlayer().setDamage(map.getPlayer().getMostPowerfulWeaponAttack());
+            refresh();
         }
         if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.KEY){
             map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
             map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
+            refresh();
         }
-        inventoryLabel.setText("");
-        inventoryLabel.setText("Inventory: "+map.getPlayer().getInventoryString());
+
+
+
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -185,5 +193,7 @@ public class Main extends Application {
             canvasX++;
         }
         healthLabel.setText("Health: " + map.getPlayer().getHealth());
+        inventoryLabel.setText("Inventory: "+map.getPlayer().getInventoryString());
+        attackLabel.setText("Strength: "+map.getPlayer().getDamage());
     }
 }

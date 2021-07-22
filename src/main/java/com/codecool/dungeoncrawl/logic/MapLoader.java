@@ -86,11 +86,11 @@ public class MapLoader {
                             break;
                         case 'w':
                             cell.setType(CellType.WEAPON);
-                            new Weapon(cell,"Sword");
+                            new Weapon(cell, "Sword");
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);
-                            new Key(cell,"Key");
+                            new Key(cell, "Key");
                             break;
                         case 'd':
                             cell.setType(CellType.DOOR);

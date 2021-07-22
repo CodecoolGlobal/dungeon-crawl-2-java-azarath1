@@ -1,4 +1,5 @@
 package com.codecool.dungeoncrawl;
+
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -23,6 +24,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,10 +94,10 @@ public class Main extends Application {
         inventoryLabel.setTextFill(Color.web("#DF2302", 0.9));
 
         //*Pick up Button
-        Button submit = new Button("Pick Up");
-        ui.add(submit, 1, 8);
-        submit.setFocusTraversable(false);
-        submit.setOnAction(this::handle);
+        Button pickupBtn = new Button("Pick Up");
+        ui.add(pickupBtn, 1, 8);
+        pickupBtn.setFocusTraversable(false);
+        pickupBtn.setOnAction(this::handle);
 
         //*Borderpane
         BorderPane borderPane = new BorderPane();

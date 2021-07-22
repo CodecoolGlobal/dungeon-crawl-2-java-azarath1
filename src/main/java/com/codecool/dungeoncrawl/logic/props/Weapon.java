@@ -5,7 +5,8 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 
 public class Weapon extends Actor {
     private String name;
-    public Weapon(Cell cell,String name) {
+
+    public Weapon(Cell cell, String name) {
         super(cell);
         setName(name);
     }

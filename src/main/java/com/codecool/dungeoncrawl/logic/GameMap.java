@@ -35,35 +35,6 @@ public class GameMap {
         } else return false;
     }
 
-    public boolean isOnEndTile() {
-        Cell characterCell = player.getCell();
-        if (characterCell.getType() == CellType.EXIT) {
-            return true;
-        }else return false;
-    }
-
-    public boolean isAlive() {
-        if (player.getHealth()<1) {
-            return false;
-        }else return true;
-    }
-
-//    public ArrayList<ArrayList<Integer>> getFloorCells() {
-//        ArrayList<ArrayList<Integer>> emptyFloorCellCoordinates = new ArrayList<>();
-//        for (int i = 0; i < cells.length; i++) {
-//            for (int j = 0; j < cells[0].length; j++) {
-//                if(cells[i][j].getType().getTileName().equals("floor") && cells[i][j].getActor() == null){
-//                    ArrayList <Integer> coordinatesToAdd = new ArrayList<>();
-//                    coordinatesToAdd.add(cells[i][j].getX());
-//                    coordinatesToAdd.add(cells[i][j].getY());
-//                    emptyFloorCellCoordinates.add(coordinatesToAdd);
-//                }
-//            }
-//        }
-//        System.out.print(emptyFloorCellCoordinates);
-//        return emptyFloorCellCoordinates;
-//    }
-
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -80,3 +51,21 @@ public class GameMap {
         return height;
     }
 }
+
+
+// notes
+//    public ArrayList<ArrayList<Integer>> getFloorCells() {
+//        ArrayList<ArrayList<Integer>> emptyFloorCellCoordinates = new ArrayList<>();
+//        for (int i = 0; i < cells.length; i++) {
+//            for (int j = 0; j < cells[0].length; j++) {
+//                if(cells[i][j].getType().getTileName().equals("floor") && cells[i][j].getActor() == null){
+//                    ArrayList <Integer> coordinatesToAdd = new ArrayList<>();
+//                    coordinatesToAdd.add(cells[i][j].getX());
+//                    coordinatesToAdd.add(cells[i][j].getY());
+//                    emptyFloorCellCoordinates.add(coordinatesToAdd);
+//                }
+//            }
+//        }
+//        System.out.print(emptyFloorCellCoordinates);
+//        return emptyFloorCellCoordinates;
+//    }

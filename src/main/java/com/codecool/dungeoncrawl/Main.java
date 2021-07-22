@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
@@ -201,7 +202,12 @@ public class Main extends Application {
         }
 
         if (map.nextLevel()) {
+            Player savedPlayer = map.getPlayer();
             map = MapLoader.loadMap();
+            Player newPlayer = map.getPlayer();
+            System.out.println(savedPlayer);
+            savedPlayer.setCell(newPlayer.getCell());
+            map.setPlayer(savedPlayer);
             refresh();
         }
 

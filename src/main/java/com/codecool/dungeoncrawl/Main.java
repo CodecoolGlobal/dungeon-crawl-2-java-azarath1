@@ -1,5 +1,4 @@
 package com.codecool.dungeoncrawl;
-
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -17,12 +16,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +59,11 @@ public class Main extends Application {
         mainMenu.setAlignment(Pos.CENTER);
         mainMenu.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         mainMenu.setVgap(10);
-        mainMenu.add(new Label("Name Your Character: "), 0, 0);
+        Image image = new Image("File:src/main/resources/Dungeon Crawler by.png");
+        mainMenu.getChildren().add(new ImageView(image));
+        mainMenu.add(formNameLabel, 0, 1);
+        formNameLabel.setText("Name Your Character:");
+        formNameLabel.setTextFill(Color.web("#F4FF01", 0.9));
         TextField userTextField = new TextField();
         userTextField.setAlignment(Pos.CENTER);
         mainMenu.add(userTextField, 0, 2);

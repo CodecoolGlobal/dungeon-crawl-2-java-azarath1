@@ -70,8 +70,8 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(20));
         ui.setVgap(2);
-        ui.add(new Label(""), 1, 1);
-        ui.add(healthLabel, 1, 1);
+        ui.add(new Label(""), 1, 2);
+        ui.add(healthLabel, 1, 2);
         ui.add(new Label(""),1,4);
         ui.add(attackLabel,1,4);
         ui.add(new Label(""), 1, 6);
@@ -99,7 +99,7 @@ public class Main extends Application {
                 CHAR_NAME = userTextField.getText();
                 primaryStage.setScene(scene);
                 ui.add(new Label("Player: "), 1, 0);
-                ui.add(new Label(CHAR_NAME),2,0);
+                ui.add(new Label(CHAR_NAME),1,1);
                 if (CHAR_NAME.equals("Konrád") ||
                         CHAR_NAME.equals("Gergő") ||
                         CHAR_NAME.equals("Roli")) {

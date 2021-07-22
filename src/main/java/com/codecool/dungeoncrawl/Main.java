@@ -8,6 +8,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Weapon;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -86,7 +87,27 @@ public class Main extends Application {
 
         //*Game Scene
         Scene scene = new Scene(borderPane);
-        startButton.setOnAction(e -> primaryStage.setScene(scene));
+
+
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                CHAR_NAME = userTextField.getText();
+                primaryStage.setScene(scene);
+                ui.add(new Label("Player: "), 1, 0);
+                ui.add(new Label(CHAR_NAME),2,0);
+                if (CHAR_NAME.equals("Konrád") ||
+                        CHAR_NAME.equals("Gergő") ||
+                        CHAR_NAME.equals("Roli")) {
+                    map.getPlayer().setHealth(999);
+                    map.getPlayer().setGodMode();
+                    refresh();
+                }
+
+            }
+        });
+
+
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
         primaryStage.setTitle("Dungeon & Demos");

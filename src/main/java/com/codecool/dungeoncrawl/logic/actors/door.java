@@ -2,9 +2,10 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class door extends Actor{
+public class door extends Actor {
     private boolean isOpen = false;
     private String name;
+
     public door(Cell cell) {
         super(cell);
     }

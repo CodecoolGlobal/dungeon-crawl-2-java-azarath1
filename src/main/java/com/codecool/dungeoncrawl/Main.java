@@ -71,10 +71,10 @@ public class Main extends Application {
         ui.setVgap(2);
         ui.add(new Label(""), 1, 2);
         ui.add(healthLabel, 1, 2);
-        ui.add(new Label(""),1,4);
-        ui.add(attackLabel,1,4);
+        ui.add(new Label(""), 1, 4);
+        ui.add(attackLabel, 1, 4);
         ui.add(new Label(""), 1, 6);
-        ui.add(inventoryLabel,1,6);
+        ui.add(inventoryLabel, 1, 6);
 
         //*Pick up Button
         Button submit = new Button("Pick Up");
@@ -95,7 +95,7 @@ public class Main extends Application {
                 CHAR_NAME = userTextField.getText();
                 primaryStage.setScene(scene);
                 ui.add(new Label("Player: "), 1, 0);
-                ui.add(new Label(CHAR_NAME),1,1);
+                ui.add(new Label(CHAR_NAME), 1, 1);
                 if (CHAR_NAME.equals("Konrád") ||
                         CHAR_NAME.equals("Gergő") ||
                         CHAR_NAME.equals("Roli")) {
@@ -106,9 +106,6 @@ public class Main extends Application {
             }
         });
 
-        //GAME LEVEL 2 SCENE
-
-
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
         primaryStage.setTitle("Dungeon & Demos");
@@ -116,18 +113,17 @@ public class Main extends Application {
     }
 
     private void handle(ActionEvent actionEvent) {
-        if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.WEAPON){
-            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
-            map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
+        if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getType() == CellType.WEAPON) {
+            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getDefaultActor());
+            map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).setType(CellType.FLOOR);
             map.getPlayer().setDamage(map.getPlayer().getMostPowerfulWeaponAttack());
             refresh();
         }
-        if(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getType() == CellType.KEY){
-            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).getDefaultActor());
-            map.getCell(map.getPlayer().getX(),map.getPlayer().getY()).setType(CellType.FLOOR);
+        if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getType() == CellType.KEY) {
+            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getDefaultActor());
+            map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).setType(CellType.FLOOR);
             refresh();
         }
-
 
 
     }
@@ -150,7 +146,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case RIGHT:
-                map.getPlayer().move(1,0);
+                map.getPlayer().move(1, 0);
                 map.getPlayer().attack(1, 0);
                 refresh();
                 break;
@@ -194,7 +190,7 @@ public class Main extends Application {
             refresh();
         }
         healthLabel.setText("Health: " + map.getPlayer().getHealth());
-        inventoryLabel.setText("Inventory: "+map.getPlayer().getInventoryString());
-        attackLabel.setText("Strength: "+map.getPlayer().getDamage());
+        inventoryLabel.setText("Inventory: " + map.getPlayer().getInventoryString());
+        attackLabel.setText("Strength: " + map.getPlayer().getDamage());
     }
 }

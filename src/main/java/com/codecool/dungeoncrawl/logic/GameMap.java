@@ -32,8 +32,7 @@ public class GameMap {
         Cell characterCell = player.getCell();
         if (characterCell.getType() == CellType.STAIRS) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
 //    public ArrayList<ArrayList<Integer>> getFloorCells() {

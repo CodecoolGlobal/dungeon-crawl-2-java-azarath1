@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Necromancer extends Actor {
     int turnCounter = 0;
+
     public Necromancer(Cell cell) {
         super(cell);
         this.setEnemy();
@@ -24,7 +25,7 @@ public class Necromancer extends Actor {
     @Override
     public void update() {
         boolean attackDone = false;
-        int[][] directions = { {-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+        int[][] directions = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
         for (int[] direction : directions) {
             Actor target = getCell().getNeighbor(direction[0], direction[1]).getActor();
             if (target != null && target.getClass() == Player.class) {
@@ -34,19 +35,20 @@ public class Necromancer extends Actor {
             }
         }
         if (!attackDone) {
-            int[] targetPosition = directions[(int)(Math.random() * 4)];
+            int[] targetPosition = directions[(int) (Math.random() * 4)];
             Cell target = getCell().getNeighbor(targetPosition[0], targetPosition[1]);
-            if (target.getActor() == null && target.getType() == CellType.FLOOR) move(targetPosition[0], targetPosition[1]);
+            if (target.getActor() == null && target.getType() == CellType.FLOOR)
+                move(targetPosition[0], targetPosition[1]);
         }
-        if(turnCounter % 3 == 0){
+        if (turnCounter % 3 == 0) {
             teleport();
         }
         turnCounter += 1;
     }
 
-    private void teleport(){
+    private void teleport() {
         ArrayList<Cell> emptyFloorCells = cell.getEmptyFloorCells();
-        Cell randomCell = emptyFloorCells.get((int) (Math.random()* (emptyFloorCells.size()-1)));
+        Cell randomCell = emptyFloorCells.get((int) (Math.random() * (emptyFloorCells.size() - 1)));
         move(randomCell);
     }
 }

@@ -47,13 +47,13 @@ public class Cell implements Drawable {
         return gameMap.getCell(x + dx, y + dy);
     }
 
-    public ArrayList<Cell> getEmptyFloorCells(){
+    public ArrayList<Cell> getEmptyFloorCells() {
         Cell[][] cells = gameMap.getCells();
         ArrayList<Cell> emptyFloorCells = new ArrayList<>();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[0].length; j++) {
                 Cell currentCell = cells[i][j];
-                if((currentCell.getType() == CellType.FLOOR) && (currentCell.getActor() == null)){
+                if ((currentCell.getType() == CellType.FLOOR) && (currentCell.getActor() == null)) {
                     emptyFloorCells.add(currentCell);
                 }
             }

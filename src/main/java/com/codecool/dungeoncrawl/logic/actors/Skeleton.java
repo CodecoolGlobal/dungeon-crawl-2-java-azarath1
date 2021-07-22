@@ -20,7 +20,7 @@ public class Skeleton extends Actor {
     @Override
     public void update() {
         boolean attackDone = false;
-        int[][] directions = { {-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+        int[][] directions = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
         for (int[] direction : directions) {
             Actor target = getCell().getNeighbor(direction[0], direction[1]).getActor();
             if (target != null && target.getClass() == Player.class) {
@@ -30,9 +30,10 @@ public class Skeleton extends Actor {
             }
         }
         if (!attackDone) {
-            int[] targetPosition = directions[(int)(Math.random() * 4)];
+            int[] targetPosition = directions[(int) (Math.random() * 4)];
             Cell target = getCell().getNeighbor(targetPosition[0], targetPosition[1]);
-            if (target.getActor() == null && target.getType() == CellType.FLOOR) move(targetPosition[0], targetPosition[1]);
+            if (target.getActor() == null && target.getType() == CellType.FLOOR)
+                move(targetPosition[0], targetPosition[1]);
         }
     }
 }

@@ -17,6 +17,7 @@ public class MapLoader {
     private static int counter = 0;
 
     public static GameMap loadMap() {
+        //TODO: fix PLAYER losing privilege of cheat mode and inventory after map change
         String[] maps = {"/map.txt", "/map3.txt"};
         InputStream is = MapLoader.class.getResourceAsStream(maps[counter]);
         counter++;

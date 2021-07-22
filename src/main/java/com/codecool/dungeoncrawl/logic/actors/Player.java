@@ -5,7 +5,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import java.util.ArrayList;
 
 public class Player extends Actor {
-    ArrayList<Actor>inventory = new ArrayList<>();
+    ArrayList<Actor> inventory = new ArrayList<>();
+
     public Player(Cell cell) {
         super(cell);
         this.setHealth((int) (Math.random() * 10 + 5));

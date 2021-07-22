@@ -9,14 +9,14 @@ import com.codecool.dungeoncrawl.logic.actors.Weapon;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -43,9 +43,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //MAIN MENU
-
-
-
+        GridPane mainMenu = new GridPane();
+        mainMenu.setPadding(new Insets(10));
+        mainMenu.setBackground(new Background(new BackgroundFill(Color.DIMGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+        Button startButton = new Button("Start Game");
+        mainMenu.add(startButton, 0, 0);
+        startButton.setAlignment(Pos.CENTER);
+        startButton.setFocusTraversable(false);
+        menu = new Scene(mainMenu, 400, 200);
+        primaryStage.setScene(menu);
 
 
         //GAME SCENE

@@ -45,6 +45,7 @@ public class Main extends Application {
         //MAIN MENU
         GridPane mainMenu = new GridPane();
         mainMenu.setPadding(new Insets(10));
+        mainMenu.setAlignment(Pos.CENTER);
         mainMenu.setBackground(new Background(new BackgroundFill(Color.DIMGREY, CornerRadii.EMPTY, Insets.EMPTY)));
         Button startButton = new Button("Start Game");
         mainMenu.add(startButton, 0, 0);

@@ -45,7 +45,7 @@ public class Necromancer extends Actor {
     }
 
     private void teleport(){
-        ArrayList<Cell> emptyFloorCells = cell.getFloorCells2();
+        ArrayList<Cell> emptyFloorCells = cell.getEmptyFloorCells();
         Cell randomCell = emptyFloorCells.get((int) (Math.random()* (emptyFloorCells.size()-1)));
         move(randomCell);
     }

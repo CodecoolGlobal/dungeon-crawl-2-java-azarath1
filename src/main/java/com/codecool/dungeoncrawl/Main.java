@@ -41,29 +41,35 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //MAIN MENU
+
+
+
+
+
+        //GAME SCENE
+        //*GridPane
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(20));
         ui.setVgap(2);
-
         ui.add(new Label(""), 1, 1);
         ui.add(healthLabel, 1, 1);
         ui.add(new Label("Inventory: "), 1, 3);
         ui.add(inventoryLabel,1,3);
 
-
-        //Pick up Button
-
+        //*Pick up Button
         Button submit = new Button("Pick Up");
         ui.add(submit, 1, 5);
         submit.setFocusTraversable(false);
         submit.setOnAction(this::handle);
 
+        //*Borderpane
         BorderPane borderPane = new BorderPane();
-
         borderPane.setCenter(canvas);
         borderPane.setLeft(ui);
 
+        //*Game Scene
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
         refresh();

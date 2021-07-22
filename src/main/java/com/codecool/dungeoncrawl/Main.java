@@ -19,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,8 +48,13 @@ public class Main extends Application {
         mainMenu.setPadding(new Insets(10));
         mainMenu.setAlignment(Pos.CENTER);
         mainMenu.setBackground(new Background(new BackgroundFill(Color.DIMGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+        mainMenu.setVgap(10);
+        mainMenu.add(new Label("Name Your Character: "), 0, 0);
+        TextField userTextField = new TextField();
+        userTextField.setAlignment(Pos.CENTER);
+        mainMenu.add(userTextField, 0, 1);
         Button startButton = new Button("Start Game");
-        mainMenu.add(startButton, 0, 0);
+        mainMenu.add(startButton, 0, 2);
         startButton.setAlignment(Pos.CENTER);
         startButton.setFocusTraversable(false);
         menu = new Scene(mainMenu, 400, 200);

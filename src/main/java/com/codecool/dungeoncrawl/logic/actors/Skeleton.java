@@ -8,7 +8,8 @@ public class Skeleton extends Actor {
         super(cell);
         this.setEnemy();
         this.setDamage((int) (Math.random() * 2 + 2));
-        this.setHealth((int) (Math.random() * 5 + 3));
+        //this.setHealth((int) (Math.random() * 5 + 3));
+        this.setHealth(30);
     }
 
     @Override

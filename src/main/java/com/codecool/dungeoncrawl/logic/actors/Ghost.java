@@ -33,7 +33,7 @@ public class Ghost extends Actor {
             Cell target = getCell().getNeighbor(targetPosition[0], targetPosition[1]);
             if (target.getActor() == null &&
                     (target.getType() == CellType.FLOOR || target.getType() == CellType.WALL ||target.getType() == CellType.EMPTY)) move(targetPosition[0], targetPosition[1]);
-                    System.out.println(target.getType());
+
         }
     }
 }

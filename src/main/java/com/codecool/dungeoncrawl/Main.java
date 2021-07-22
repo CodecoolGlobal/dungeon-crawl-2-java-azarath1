@@ -39,6 +39,7 @@ public class Main extends Application {
             CANVAS_WIDTH * Tiles.TILE_WIDTH,
             CANVAS_HEIGHT * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
+    Label formNameLabel = new Label();
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
     Label attackLabel = new Label();
@@ -56,17 +57,17 @@ public class Main extends Application {
         GridPane mainMenu = new GridPane();
         mainMenu.setPadding(new Insets(10));
         mainMenu.setAlignment(Pos.CENTER);
-        mainMenu.setBackground(new Background(new BackgroundFill(Color.DIMGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+        mainMenu.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         mainMenu.setVgap(10);
         mainMenu.add(new Label("Name Your Character: "), 0, 0);
         TextField userTextField = new TextField();
         userTextField.setAlignment(Pos.CENTER);
-        mainMenu.add(userTextField, 0, 1);
+        mainMenu.add(userTextField, 0, 2);
         Button startButton = new Button("Start Game");
-        mainMenu.add(startButton, 0, 2);
+        mainMenu.add(startButton, 0, 3);
         startButton.setAlignment(Pos.CENTER);
         startButton.setFocusTraversable(false);
-        menu = new Scene(mainMenu, 400, 200);
+        menu = new Scene(mainMenu, 600, 630);
         primaryStage.setScene(menu);
 
         //GAME LEVEL

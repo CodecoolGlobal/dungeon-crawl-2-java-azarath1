@@ -29,8 +29,8 @@ import java.util.List;
 public class Main extends Application {
     Scene menu;
     String CHAR_NAME;
-    int CANVAS_WIDTH = 20;
-    int CANVAS_HEIGHT = 15;
+    int CANVAS_WIDTH = 22;
+    int CANVAS_HEIGHT = 17;
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             CANVAS_WIDTH * Tiles.TILE_WIDTH,
@@ -63,8 +63,7 @@ public class Main extends Application {
         menu = new Scene(mainMenu, 400, 200);
         primaryStage.setScene(menu);
 
-
-        //GAME SCENE
+        //GAME LEVEL 1 SCENE
         //*GridPane
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
@@ -77,7 +76,6 @@ public class Main extends Application {
         ui.add(new Label(""), 1, 6);
         ui.add(inventoryLabel,1,6);
 
-
         //*Pick up Button
         Button submit = new Button("Pick Up");
         ui.add(submit, 1, 8);
@@ -89,10 +87,8 @@ public class Main extends Application {
         borderPane.setCenter(canvas);
         borderPane.setLeft(ui);
 
-        //*Game Scene
+        //*Game Scene LEVEL 1
         Scene scene = new Scene(borderPane);
-
-
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -107,9 +103,10 @@ public class Main extends Application {
                     map.getPlayer().setGodMode();
                     refresh();
                 }
-
             }
         });
+
+        //GAME LEVEL 2 SCENE
 
 
         refresh();
@@ -191,6 +188,10 @@ public class Main extends Application {
                 canvasY++;
             }
             canvasX++;
+        }
+        if (map.nextLevel()) {
+            map = MapLoader.loadMap();
+            refresh();
         }
         healthLabel.setText("Health: " + map.getPlayer().getHealth());
         inventoryLabel.setText("Inventory: "+map.getPlayer().getInventoryString());

@@ -78,7 +78,7 @@ public class Main extends Application {
 
         //*Game Scene
         Scene scene = new Scene(borderPane);
-        primaryStage.setScene(scene);
+        startButton.setOnAction(e -> primaryStage.setScene(scene));
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
         primaryStage.setTitle("Dungeon & Demos");

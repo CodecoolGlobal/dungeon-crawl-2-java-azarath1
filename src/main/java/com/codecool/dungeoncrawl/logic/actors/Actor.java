@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Actor implements Drawable {
+    private boolean godMode = false;
     private Cell cell;
     private String name;
     private int health = 10;
@@ -54,6 +55,11 @@ public abstract class Actor implements Drawable {
             nextCell.setActor(this);
             cell = nextCell;
         }
+        else if(godMode && !checkCollisionWithFence(nextCell)) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        }
     }
 
     public ArrayList<Actor> getInventory() {
@@ -64,6 +70,10 @@ public abstract class Actor implements Drawable {
   
     public String getName() {
         return name;
+    }
+
+    public boolean checkCollisionWithFence(Cell nextCell){
+        return nextCell.getTileName().equals("fence");
     }
 
     public boolean checkCollisionWithWall(Cell nextCell){
@@ -130,5 +140,13 @@ public abstract class Actor implements Drawable {
 
     public void death(){
         getCell().setActor(null);
+    }
+
+    public boolean isGodMode() {
+        return godMode;
+    }
+
+    public void setGodMode() {
+        this.godMode = true;
     }
 }

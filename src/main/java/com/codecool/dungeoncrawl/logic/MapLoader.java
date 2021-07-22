@@ -2,6 +2,9 @@ package com.codecool.dungeoncrawl.logic;
 
 
 import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.props.Key;
+import com.codecool.dungeoncrawl.logic.props.Weapon;
+import com.codecool.dungeoncrawl.logic.props.door;
 
 
 import java.io.InputStream;

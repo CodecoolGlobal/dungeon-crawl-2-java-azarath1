@@ -9,9 +9,10 @@ import java.util.List;
 public abstract class Actor implements Drawable {
     private Cell cell;
     private String name;
-    private int health = 10;
+    private int health = 30;
     private int damage = 5;
     private boolean enemy = false;
+    private boolean firsthit = false;
     ArrayList<Actor> inventory = new ArrayList<>();
 
     public Actor(Cell cell) {
@@ -106,10 +107,12 @@ public abstract class Actor implements Drawable {
         List<String> monsters = List.of("spider", "ghost", "skeleton");
         if (target != null && target.isEnemy() != this.isEnemy()){
             target.damageDone(damage);
-            if(monsters.contains(target.getTileName())){
+            if(monsters.contains(target.getTileName())&&!target.isFirsthit()){
                 System.out.println(target.getDamage());
                 target.setDamage(target.getDamage()-3);
                 System.out.println(target.getDamage());
+                target.setFirsthit(true);
+
             }
 
         }
@@ -147,5 +150,13 @@ public abstract class Actor implements Drawable {
 
     public void death(){
         getCell().setActor(null);
+    }
+
+    public boolean isFirsthit() {
+        return firsthit;
+    }
+
+    public void setFirsthit(boolean firsthit) {
+        this.firsthit = firsthit;
     }
 }

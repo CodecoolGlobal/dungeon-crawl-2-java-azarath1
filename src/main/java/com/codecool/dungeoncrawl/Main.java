@@ -63,7 +63,7 @@ public class Main extends Application {
         mainMenu.getChildren().add(new ImageView(image));
         mainMenu.add(formNameLabel, 0, 1);
         formNameLabel.setText("Name Your Character:");
-        formNameLabel.setTextFill(Color.web("#F4FF01", 0.9));
+        formNameLabel.setTextFill(Color.web("#5EB500", 0.9));
         TextField userTextField = new TextField();
         userTextField.setAlignment(Pos.CENTER);
         mainMenu.add(userTextField, 0, 2);
@@ -111,9 +111,9 @@ public class Main extends Application {
                 primaryStage.setScene(scene);
                 playerLabel.setText("Player: ");
                 ui.add(playerLabel, 1, 0);
-                playerLabel.setTextFill(Color.web("#F4FF01", 0.9));
+                playerLabel.setTextFill(Color.web("#872E7F", 0.9));
                 nameLabel.setText(CHAR_NAME);
-                nameLabel.setTextFill(Color.web("#F4FF01", 0.9));
+                nameLabel.setTextFill(Color.web("#872E7F", 0.9));
                 ui.add(nameLabel, 1, 1);
                 if (CHAR_NAME.equals("Konrád") ||
                         CHAR_NAME.equals("Gergő") ||

@@ -40,6 +40,21 @@ public class MapLoader {
                         case '#':
                             cell.setType(CellType.WALL);
                             break;
+                        case ';':
+                            cell.setType(CellType.WOOD);
+                            break;
+                        case 'ß':
+                            cell.setType(CellType.DRY_BUSH);
+                            break;
+                        case 'K':
+                            cell.setType(CellType.ROCK);
+                            break;
+                        case 'R':
+                            cell.setType(CellType.T_REX_SKULL);
+                            break;
+                        case 'v':
+                            cell.setType(CellType.WATER);
+                            break;
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;

@@ -33,6 +33,12 @@ public class Tiles {
         tileMap.put("fence", new Tile(5, 3));
         tileMap.put("door", new Tile(3, 4));
         tileMap.put("stairs", new Tile(3, 6));
+        tileMap.put("wood", new Tile(1, 1));
+        tileMap.put("water", new Tile(8, 5));
+        tileMap.put("rock", new Tile(5, 2));
+        tileMap.put("dryBush", new Tile(6, 2));
+        tileMap.put("fire", new Tile(14, 11));
+        tileMap.put("tRexSkull", new Tile(17, 24));
         //player
         tileMap.put("player", new Tile(25, 0));
         //monsters

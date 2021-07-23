@@ -42,7 +42,11 @@ public class GameMap {
         }else return false;
     }
 
-
+    public boolean isAlive() {
+        if (player.getHealth()<1) {
+            return false;
+        }else return true;
+    }
 
 //    public ArrayList<ArrayList<Integer>> getFloorCells() {
 //        ArrayList<ArrayList<Integer>> emptyFloorCellCoordinates = new ArrayList<>();

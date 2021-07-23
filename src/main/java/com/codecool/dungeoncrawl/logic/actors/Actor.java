@@ -136,9 +136,7 @@ public abstract class Actor implements Drawable {
         if (target != null && target.isEnemy() != this.isEnemy()) {
             target.damageDone(damage);
             if (monsters.contains(target.getTileName()) && !target.isFirsthit()) {
-                System.out.println(target.getDamage());
-                target.setDamage(target.getDamage() - 3);
-                System.out.println(target.getDamage());
+                target.setDamage((target.getDamage()) + 3);
                 target.setFirsthit(true);
 
             }

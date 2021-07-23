@@ -15,6 +15,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -28,7 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
+    boolean deathTrigger = false;
     Scene menu;
+    Scene deathScene;
+    Stage primaryStage;
     String CHAR_NAME;
     int CANVAS_WIDTH = 22;
     int CANVAS_HEIGHT = 17;
@@ -67,7 +71,7 @@ public class Main extends Application {
         menu = new Scene(mainMenu, 400, 200);
         primaryStage.setScene(menu);
 
-        //GAME LEVEL 1 SCENE
+        //GAME LEVEL
         //*GridPane
         GridPane ui = new GridPane();
         ui.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -120,6 +124,21 @@ public class Main extends Application {
                 }
             }
         });
+
+        //Death Scene
+        if (deathTrigger) {
+            GridPane deathShow = new GridPane();
+            deathShow.setPadding(new Insets(10));
+            deathShow.setAlignment(Pos.CENTER);
+            deathShow.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+            deathShow.setVgap(3);
+            deathShow.add(new Label("GAME OVER"), 0, 0);
+            Button resButton = new Button("Restart");
+            deathShow.add(resButton, 0, 1);
+            deathShow.setAlignment(Pos.CENTER);
+            deathShow.setFocusTraversable(false);
+            primaryStage.getScene().setRoot(deathShow);
+        }
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -209,6 +228,19 @@ public class Main extends Application {
             savedPlayer.setCell(newPlayer.getCell());
             map.setPlayer(savedPlayer);
             refresh();
+        }
+
+        if(!map.isAlive()) {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            this.deathTrigger = true;
+            a.setContentText("GAME OVER");
+            a.show();
+        }
+
+        if(map.isOnEndTile()){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("You Won! Congratulations!");
+            a.show();
         }
 
         healthLabel.setText("Health: " + map.getPlayer().getHealth());

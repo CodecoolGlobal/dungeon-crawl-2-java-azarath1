@@ -37,7 +37,7 @@ public class GameMap {
 
     public boolean isOnEndTile() {
         Cell characterCell = player.getCell();
-        if (characterCell.getType() == CellType.DOOR) {
+        if (characterCell.getType() == CellType.EXIT) {
             return true;
         }else return false;
     }

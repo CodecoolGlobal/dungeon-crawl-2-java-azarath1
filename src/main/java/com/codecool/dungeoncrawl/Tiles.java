@@ -26,6 +26,7 @@ public class Tiles {
 
     static {
         //environment
+        tileMap.put("exit", new Tile(17, 27));
         tileMap.put("empty", new Tile(0, 0));
         tileMap.put("wall", new Tile(10, 17));
         tileMap.put("floor", new Tile(2, 0));

@@ -95,7 +95,7 @@ public class Main extends Application {
         borderPane.setCenter(canvas);
         borderPane.setLeft(ui);
 
-        //*Game Scene LEVEL 1
+        //*Game Scene
         Scene scene = new Scene(borderPane);
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -113,7 +113,7 @@ public class Main extends Application {
                         CHAR_NAME.equals("Roli")) {
                     map.getPlayer().setHealth(999);
                     map.getPlayer().setGodMode();
-                    modeLabel.setText("GOD MODE ON");
+                    modeLabel.setText("CHEAT MODE ON");
                     ui.add(modeLabel, 1, 9);
                     modeLabel.setTextFill(Color.web("#FF00E8", 0.9));
                     refresh();

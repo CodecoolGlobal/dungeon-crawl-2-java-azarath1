@@ -35,6 +35,15 @@ public class GameMap {
         } else return false;
     }
 
+    public boolean isOnEndTile() {
+        Cell characterCell = player.getCell();
+        if (characterCell.getType() == CellType.DOOR) {
+            return true;
+        }else return false;
+    }
+
+
+
 //    public ArrayList<ArrayList<Integer>> getFloorCells() {
 //        ArrayList<ArrayList<Integer>> emptyFloorCellCoordinates = new ArrayList<>();
 //        for (int i = 0; i < cells.length; i++) {

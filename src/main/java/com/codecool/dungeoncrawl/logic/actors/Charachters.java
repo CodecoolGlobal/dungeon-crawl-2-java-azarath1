@@ -31,6 +31,9 @@ public abstract class Charachters extends Actor{
     public void addToInventory(Items item) {
         inventory.add(item);
     }
+    public void removeFromInventory(Items item){
+        inventory.remove(item);
+    }
     public void attack(int x, int y) {
         Charachters target = cell.getNeighbor(x, y).getCharachter();
         List<String> monsters = List.of("spider", "ghost", "skeleton");
@@ -60,10 +63,21 @@ public abstract class Charachters extends Actor{
             nextCell.setActor(this);
             cell = nextCell;
         }
-        else if (checkCollisionWithDoor(nextCell) && getInventoryString().contains("Key")) {
+        else if (checkCollisionWithDoor(nextCell) && nextCell.getDoor().isOpen()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+        }
+        else if (checkCollisionWithDoor(nextCell) && getInventoryString().contains("Key") && !nextCell.getDoor().isOpen()) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+            cell.getDoor().setOpen(true);
+           Items removable = inventory.stream()
+                    .filter(x -> x.getName() == "Key")
+                    .findFirst()
+                    .get();
+           removeFromInventory(removable);
         }
         else if (godMode && !checkCollisionWithFence(nextCell)) {
             cell.setActor(null);
@@ -77,13 +91,6 @@ public abstract class Charachters extends Actor{
         targetCell.setActor(this);
         cell = targetCell;
     }
-
-
-
-
-
-
-
 
     public boolean checkCollisionWithFence(Cell nextCell) {
         return nextCell.getTileName().equals("fence");

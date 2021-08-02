@@ -4,7 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 import java.util.ArrayList;
 
-public class Player extends Actor {
+public class Player extends Charachters {
     ArrayList<Actor> inventory = new ArrayList<>();
 
     public Player(Cell cell) {

@@ -1,12 +1,17 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Charachters;
+import com.codecool.dungeoncrawl.logic.props.Items;
+import com.codecool.dungeoncrawl.logic.props.Weapon;
 
 import java.util.ArrayList;
 
 public class Cell implements Drawable {
     private CellType type;
     private Actor actor;
+    private Charachters charachter;
+    private Items item;
     private Actor defaultActor;
     private GameMap gameMap;
     private int x, y;
@@ -32,6 +37,7 @@ public class Cell implements Drawable {
     }
 
     public void setType(CellType type) {
+
         this.type = type;
     }
 
@@ -41,6 +47,22 @@ public class Cell implements Drawable {
 
     public Actor getActor() {
         return actor;
+    }
+
+    public Charachters getCharachter() {
+        return charachter;
+    }
+
+    public void setCharachter(Charachters charachter) {
+        this.charachter = charachter;
+    }
+
+    public Items getItem() {
+        return item;
+    }
+
+    public void setItem(Items item) {
+        this.item = item;
     }
 
     public Cell getNeighbor(int dx, int dy) {

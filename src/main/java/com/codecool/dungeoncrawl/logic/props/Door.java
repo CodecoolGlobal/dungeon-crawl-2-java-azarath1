@@ -3,12 +3,13 @@ package com.codecool.dungeoncrawl.logic.props;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 
-public class door extends Actor {
+public class Door extends Actor {
     private boolean isOpen = false;
     private String name;
 
-    public door(Cell cell) {
+    public Door(Cell cell) {
         super(cell);
+        this.cell.setDoor(this);
     }
 
     public boolean isOpen() {

@@ -7,7 +7,7 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 
 import java.util.ArrayList;
 
-public class Necromancer extends Actor {
+public class Necromancer extends Charachters{
     int turnCounter = 0;
 
     public Necromancer(Cell cell) {

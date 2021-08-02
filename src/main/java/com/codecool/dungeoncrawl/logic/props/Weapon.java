@@ -3,7 +3,7 @@ package com.codecool.dungeoncrawl.logic.props;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 
-public class Weapon extends Actor {
+public class Weapon extends Items {
     private String name;
 
     public Weapon(Cell cell, String name) {

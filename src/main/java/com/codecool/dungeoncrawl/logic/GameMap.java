@@ -50,6 +50,19 @@ public class GameMap {
     public int getHeight() {
         return height;
     }
+
+    public boolean isOnEndTile() {
+        Cell characterCell = player.getCell();
+        if (characterCell.getType() == CellType.EXIT) {
+            return true;
+        }else return false;
+    }
+
+    public boolean isAlive() {
+        if (player.getHealth()<1) {
+            return false;
+        }else return true;
+    }
 }
 
 

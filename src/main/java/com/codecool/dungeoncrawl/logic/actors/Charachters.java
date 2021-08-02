@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class Charachters extends Actor{
     private int health = 30;
-    private int damage = 5;
+    private int damage = 10;
     private String name;
     private boolean godMode = false;
     private int turnCount = 0;
@@ -179,7 +179,12 @@ public abstract class Charachters extends Actor{
 
     public int getMostPowerfulWeaponAttack() {
         int last = 0;
-
+        for (int i = 0; i < inventory.size(); i++) {
+            if(inventory.get(i) instanceof Weapon && ((Weapon) inventory.get(i)).getDamage() > last){
+                last = ((Weapon) inventory.get(i)).getDamage();
+                System.out.println(last);
+            }
+        }
         return damage + last;
     }
     public String getInventoryString() {

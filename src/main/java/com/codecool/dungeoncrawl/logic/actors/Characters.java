@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.props.Items;
 import com.codecool.dungeoncrawl.logic.props.Weapon;
 
@@ -39,7 +40,7 @@ public abstract class Characters extends Actor{
         System.out.println("Perps");
         Actor target = cell.getNeighbor(x, y).getActor();
         System.out.println(cell.getNeighbor(x, y).getActor());
-        List<String> monsters = List.of("spider", "ghost", "skeleton");
+        List<String> monsters = List.of("spider", "ghost", "skeleton","necromancer");
         if (target != null && ((Characters) target).isEnemy() != this.isEnemy()) {
             System.out.println("Hit");
             ((Characters) target).damageDone(damage);

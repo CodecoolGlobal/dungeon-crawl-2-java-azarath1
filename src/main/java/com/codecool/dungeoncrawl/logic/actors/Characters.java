@@ -37,9 +37,7 @@ public abstract class Characters extends Actor{
         inventory.remove(item);
     }
     public void attack(int x, int y) {
-        System.out.println("Perps");
         Actor target = cell.getNeighbor(x, y).getActor();
-        System.out.println(cell.getNeighbor(x, y).getActor());
         List<String> monsters = List.of("spider", "ghost", "skeleton","necromancer");
         if (!(target instanceof Items)&&target != null && ((Characters) target).isEnemy() != this.isEnemy()) {
             System.out.println("Hit");

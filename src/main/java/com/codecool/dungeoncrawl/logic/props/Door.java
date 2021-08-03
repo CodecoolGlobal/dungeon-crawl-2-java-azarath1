@@ -4,7 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Characters;
 
-public class Door extends Characters {
+public class Door extends Items {
     private boolean isOpen = false;
     private String name;
 

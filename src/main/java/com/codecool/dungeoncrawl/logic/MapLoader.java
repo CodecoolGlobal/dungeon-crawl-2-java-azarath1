@@ -105,7 +105,6 @@ public class MapLoader {
     }
 
     public static GameMap loadMap(Player player) {
-        //TODO: fix PLAYER losing privilege of cheat mode and inventory after map change
         String[] maps = {"/map.txt", "/map3.txt"};
         InputStream is = MapLoader.class.getResourceAsStream(maps[counter]);
         counter++;
@@ -130,6 +129,21 @@ public class MapLoader {
                             break;
                         case '#':
                             cell.setType(CellType.WALL);
+                            break;
+                        case ';':
+                            cell.setType(CellType.WOOD);
+                            break;
+                        case 'ß':
+                            cell.setType(CellType.DRY_BUSH);
+                            break;
+                        case 'K':
+                            cell.setType(CellType.ROCK);
+                            break;
+                        case 'R':
+                            cell.setType(CellType.T_REX_SKULL);
+                            break;
+                        case 'v':
+                            cell.setType(CellType.WATER);
                             break;
                         case '.':
                             cell.setType(CellType.FLOOR);
@@ -158,17 +172,20 @@ public class MapLoader {
                         case 'e':
                             cell.setType(CellType.STAIRS);
                             break;
+                        case 'X':
+                            cell.setType(CellType.EXIT);
+                            break;
                         case 'w':
                             cell.setType(CellType.WEAPON);
-                            new Weapon(cell,"Sword");
+                            new Weapon(cell, "Sword");
                             break;
                         case 'k':
                             cell.setType(CellType.KEY);
-                            new Key(cell,"Key");
+                            new Key(cell, "Key");
                             break;
                         case 'd':
                             cell.setType(CellType.DOOR);
-                            new door(cell);
+                            new Door(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

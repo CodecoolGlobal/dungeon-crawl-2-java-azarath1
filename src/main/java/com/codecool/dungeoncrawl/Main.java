@@ -15,9 +15,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -27,10 +27,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Main extends Application {
     boolean deathTrigger = false;
@@ -134,14 +134,35 @@ public class Main extends Application {
                 }
             }
         });
-        //TODO: add ui window for SAVE
+        //TODO: change buttons add textinputfield
         scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 if (saveShortcut.match(event)) {
-                    Alert a = new Alert(Alert.AlertType.WARNING);
-                    a.setContentText("This is Save");
-                    a.show();
+                    ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
+                    GaussianBlur blur = new GaussianBlur(55);
+                    adj.setInput(blur);
+                    canvas.setEffect(adj);
+                    ui.setEffect(adj);
+                    Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                    a.setContentText("Save your game!");
+                    a.setHeaderText("Dungeons & Demos");
+                    Optional<ButtonType> result = a.showAndWait();
+                    ButtonType button = result.orElse(ButtonType.CANCEL);
+                    if (button == ButtonType.OK) {
+                        System.out.println("save");
+                        ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+                        GaussianBlur blurOff = new GaussianBlur(0);
+                        adjZero.setInput(blurOff);
+                        canvas.setEffect(adjZero);
+                        ui.setEffect(adjZero);
+                    } else {
+                        ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+                        GaussianBlur blurOff = new GaussianBlur(0);
+                        adjZero.setInput(blurOff);
+                        canvas.setEffect(adjZero);
+                        ui.setEffect(adjZero);
+                    }
                 }
             }
 

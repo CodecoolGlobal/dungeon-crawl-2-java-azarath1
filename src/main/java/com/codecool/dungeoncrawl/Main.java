@@ -8,6 +8,8 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.props.Weapon;
 import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -78,9 +80,13 @@ public class Main extends Application {
         userTextField.setAlignment(Pos.CENTER);
         mainMenu.add(userTextField, 0, 2);
         Button startButton = new Button("Start Game");
+        Button loadButton = new Button("Load Game");
         mainMenu.add(startButton, 0, 3);
+        mainMenu.add(loadButton,0,4);
         startButton.setAlignment(Pos.CENTER);
         startButton.setFocusTraversable(false);
+        loadButton.setAlignment(Pos.CENTER);
+        loadButton.setFocusTraversable(false);
         menu = new Scene(mainMenu, 600, 630);
         primaryStage.setScene(menu);
 
@@ -109,7 +115,45 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(canvas);
         borderPane.setLeft(ui);
+        loadButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage confirmWindow = new Stage();
+                confirmWindow.initModality(Modality.APPLICATION_MODAL);
+                confirmWindow.setTitle("Load Game");
+                Label loadLabel = new Label();
+               loadLabel.setText("Select a save:");
+                Button loadBtn = new Button("Load");
+                Button cancelBtn = new Button("Cancel");
+                ListView<String> saveContainers = new ListView<>();
+                saveContainers.getItems().addAll("Test1","Test2");
+                saveContainers.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
+                //Button events
+                loadBtn.setOnAction(value -> {
+                    ObservableList<String> options = saveContainers.getSelectionModel().getSelectedItems();
+
+                });
+                //Button events
+
+                cancelBtn.setOnAction(e -> {
+                    ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+                    GaussianBlur blurOff = new GaussianBlur(0);
+                    adjZero.setInput(blurOff);
+                    canvas.setEffect(adjZero);
+                    ui.setEffect(adjZero);
+                    confirmWindow.close();
+                });
+
+                //set stage modal - add elements to stage set scene etc...
+                VBox layout = new VBox(10);
+                layout.getChildren().addAll(loadLabel, saveContainers,  loadBtn, cancelBtn);
+                layout.setAlignment(Pos.CENTER);
+                Scene scene1 = new Scene(layout, 500, 300);
+                confirmWindow.setScene(scene1);
+                confirmWindow.showAndWait();
+            }
+        });
         //*Game Scene
         Scene scene = new Scene(borderPane);
         startButton.setOnAction(new EventHandler<ActionEvent>() {

@@ -4,7 +4,7 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.props.Key;
 import com.codecool.dungeoncrawl.logic.props.Weapon;
-import com.codecool.dungeoncrawl.logic.props.door;
+import com.codecool.dungeoncrawl.logic.props.Door;
 
 
 import java.io.InputStream;
@@ -14,7 +14,6 @@ public class MapLoader {
     private static int counter = 0;
 
     public static GameMap loadMap() {
-        //TODO: fix PLAYER losing privilege of cheat mode and inventory after map change
         String[] maps = {"/map.txt", "/map3.txt"};
         InputStream is = MapLoader.class.getResourceAsStream(maps[counter]);
         counter++;
@@ -94,7 +93,7 @@ public class MapLoader {
                             break;
                         case 'd':
                             cell.setType(CellType.DOOR);
-                            new door(cell);
+                            new Door(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

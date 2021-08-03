@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.props.Weapon;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -153,13 +154,13 @@ public class Main extends Application {
 
     private void handle(ActionEvent actionEvent) {
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getType() == CellType.WEAPON) {
-            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getDefaultActor());
+            map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
             map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).setType(CellType.FLOOR);
             map.getPlayer().setDamage(map.getPlayer().getMostPowerfulWeaponAttack());
             refresh();
         }
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getType() == CellType.KEY) {
-            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getDefaultActor());
+            map.getPlayer().addToInventory(map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getItem());
             map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).setType(CellType.FLOOR);
             refresh();
         }

@@ -20,6 +20,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -50,6 +53,7 @@ public class Main extends Application {
     Label playerLabel = new Label();
     Label modeLabel = new Label();
     Button pickupBtn = new Button("Pick Up");
+    KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
 
     public static void main(String[] args) {
         launch(args);
@@ -130,6 +134,18 @@ public class Main extends Application {
                 }
             }
         });
+        //TODO: add ui window for SAVE
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (saveShortcut.match(event)) {
+                    Alert a = new Alert(Alert.AlertType.WARNING);
+                    a.setContentText("This is Save");
+                    a.show();
+                }
+            }
+
+        });
 
         //Death Scene
         if (deathTrigger) {
@@ -167,7 +183,7 @@ public class Main extends Application {
 
 
     }
-
+    //---KEY controls
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case W:

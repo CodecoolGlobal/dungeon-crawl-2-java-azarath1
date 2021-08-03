@@ -41,7 +41,7 @@ public abstract class Characters extends Actor{
         Actor target = cell.getNeighbor(x, y).getActor();
         System.out.println(cell.getNeighbor(x, y).getActor());
         List<String> monsters = List.of("spider", "ghost", "skeleton","necromancer");
-        if (target != null && ((Characters) target).isEnemy() != this.isEnemy()) {
+        if (!(target instanceof Items)&&target != null && ((Characters) target).isEnemy() != this.isEnemy()) {
             System.out.println("Hit");
             ((Characters) target).damageDone(damage);
             if (monsters.contains(target.getTileName()) && !((Characters) target).isFirsthit()) {

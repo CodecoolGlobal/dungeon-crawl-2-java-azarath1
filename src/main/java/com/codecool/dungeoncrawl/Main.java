@@ -26,6 +26,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class Main extends Application {
     Label modeLabel = new Label();
     Button pickupBtn = new Button("Pick Up");
     KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+    GridPane ui = new GridPane();
 
     public static void main(String[] args) {
         launch(args);
@@ -84,7 +86,6 @@ public class Main extends Application {
 
         //GAME LEVEL
         //*GridPane
-        GridPane ui = new GridPane();
         ui.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(20));
@@ -134,35 +135,12 @@ public class Main extends Application {
                 }
             }
         });
-        //TODO: change buttons add textinputfield
+
         scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 if (saveShortcut.match(event)) {
-                    ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
-                    GaussianBlur blur = new GaussianBlur(55);
-                    adj.setInput(blur);
-                    canvas.setEffect(adj);
-                    ui.setEffect(adj);
-                    Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-                    a.setContentText("Save your game!");
-                    a.setHeaderText("Dungeons & Demos");
-                    Optional<ButtonType> result = a.showAndWait();
-                    ButtonType button = result.orElse(ButtonType.CANCEL);
-                    if (button == ButtonType.OK) {
-                        System.out.println("save");
-                        ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-                        GaussianBlur blurOff = new GaussianBlur(0);
-                        adjZero.setInput(blurOff);
-                        canvas.setEffect(adjZero);
-                        ui.setEffect(adjZero);
-                    } else {
-                        ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-                        GaussianBlur blurOff = new GaussianBlur(0);
-                        adjZero.setInput(blurOff);
-                        canvas.setEffect(adjZero);
-                        ui.setEffect(adjZero);
-                    }
+                    saveModal(map.getPlayer());
                 }
             }
 
@@ -235,6 +213,48 @@ public class Main extends Application {
         }
     }
 
+    //SAVING MODAL
+    //TODO: connect with database
+    private void saveModal(Player player) {
+        //Background modifier for blur effect
+        ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
+        GaussianBlur blur = new GaussianBlur(55);
+        adj.setInput(blur);
+        canvas.setEffect(adj);
+        ui.setEffect(adj);
+
+        //new modal creation
+        Stage confirmWindow = new Stage();
+        confirmWindow.initModality(Modality.APPLICATION_MODAL);
+        confirmWindow.setTitle("Save Game");
+        Label saveLabel = new Label();
+        saveLabel.setText("Save your progress:");
+        Button saveBtn = new Button("Save");
+        Button cancelBtn = new Button("Cancel");
+        TextField saveName = new TextField();
+
+        //Button events
+        saveBtn.setOnAction(value -> {
+            saveLabel.setText(saveName.getText());
+        });
+
+        cancelBtn.setOnAction(e -> {
+            ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+            GaussianBlur blurOff = new GaussianBlur(0);
+            adjZero.setInput(blurOff);
+            canvas.setEffect(adjZero);
+            ui.setEffect(adjZero);
+            confirmWindow.close();
+        });
+
+        //set stage modal - add elements to stage set scene etc...
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(saveLabel, saveName, saveBtn, cancelBtn);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1 = new Scene(layout, 250, 200);
+        confirmWindow.setScene(scene1);
+        confirmWindow.showAndWait();
+    }
     private void refresh() {
         int startX = map.getPlayer().getX() - CANVAS_WIDTH / 2;
         if (startX < 0) startX = 0;

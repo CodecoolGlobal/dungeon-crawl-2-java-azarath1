@@ -2,7 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Spider extends Charachters {
+public class Spider extends Characters {
     public Spider(Cell cell) {
         super(cell);
         this.setEnemy();

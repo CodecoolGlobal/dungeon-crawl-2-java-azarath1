@@ -7,7 +7,7 @@ import com.codecool.dungeoncrawl.logic.props.Weapon;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Charachters extends Actor{
+public abstract class Characters extends Actor{
     private int health = 30;
     private int damage = 10;
     private String name;
@@ -17,8 +17,9 @@ public abstract class Charachters extends Actor{
     private boolean firsthit = false;
     ArrayList<Items> inventory = new ArrayList<>();
 
-    public Charachters(Cell cell) {
+    public Characters(Cell cell) {
         super(cell);
+        this.cell.setCharacter(this);
     }
     public int getHealth() {
         return health;
@@ -35,13 +36,16 @@ public abstract class Charachters extends Actor{
         inventory.remove(item);
     }
     public void attack(int x, int y) {
-        Charachters target = cell.getNeighbor(x, y).getCharachter();
+        System.out.println("Perps");
+        Actor target = cell.getNeighbor(x, y).getActor();
+        System.out.println(cell.getNeighbor(x, y).getActor());
         List<String> monsters = List.of("spider", "ghost", "skeleton");
-        if (target != null && target.isEnemy() != this.isEnemy()) {
-            target.damageDone(damage);
-            if (monsters.contains(target.getTileName()) && !target.isFirsthit()) {
-                target.setDamage((target.getDamage()) + 3);
-                target.setFirsthit(true);
+        if (target != null && ((Characters) target).isEnemy() != this.isEnemy()) {
+            System.out.println("Hit");
+            ((Characters) target).damageDone(damage);
+            if (monsters.contains(target.getTileName()) && !((Characters) target).isFirsthit()) {
+                ((Characters) target).setDamage((((Characters) target).getDamage()) + 3);
+                ((Characters) target).setFirsthit(true);
 
             }
 

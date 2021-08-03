@@ -3,7 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-public class Ghost extends Charachters{
+public class Ghost extends Characters {
     public Ghost(Cell cell) {
         super(cell);
         this.setEnemy();

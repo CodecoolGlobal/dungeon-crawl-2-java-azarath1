@@ -3,13 +3,13 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-public class Skeleton extends Charachters {
+public class Skeleton extends Characters {
     public Skeleton(Cell cell) {
         super(cell);
         this.setEnemy();
         this.setDamage((int) (Math.random() * 2 + 2));
         //this.setHealth((int) (Math.random() * 5 + 3));
-        this.setHealth(30);
+        this.setHealth(10);
     }
 
     @Override

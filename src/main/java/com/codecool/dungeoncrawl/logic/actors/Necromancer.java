@@ -2,12 +2,10 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.MapLoader;
 
 import java.util.ArrayList;
 
-public class Necromancer extends Charachters{
+public class Necromancer extends Characters {
     int turnCounter = 0;
 
     public Necromancer(Cell cell) {

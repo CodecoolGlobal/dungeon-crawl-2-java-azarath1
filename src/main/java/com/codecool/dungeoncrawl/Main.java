@@ -228,11 +228,7 @@ public class Main extends Application {
 
         if (map.nextLevel()) {
             Player savedPlayer = map.getPlayer();
-            map = MapLoader.loadMap();
-            Player newPlayer = map.getPlayer();
-            System.out.println(savedPlayer);
-            savedPlayer.setCell(newPlayer.getCell());
-            map.setPlayer(savedPlayer);
+            map = MapLoader.loadMap(savedPlayer);
             refresh();
         }
 

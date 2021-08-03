@@ -49,6 +49,7 @@ public class Main extends Application {
     Label nameLabel = new Label();
     Label playerLabel = new Label();
     Label modeLabel = new Label();
+    Button pickupBtn = new Button("Pick Up");
 
     public static void main(String[] args) {
         launch(args);
@@ -95,7 +96,6 @@ public class Main extends Application {
         inventoryLabel.setTextFill(Color.web("#DF2302", 0.9));
 
         //*Pick up Button
-        Button pickupBtn = new Button("Pick Up");
         ui.add(pickupBtn, 1, 8);
         pickupBtn.setFocusTraversable(false);
         pickupBtn.setOnAction(this::handle);
@@ -170,24 +170,29 @@ public class Main extends Application {
 
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case UP:
+            case W:
                 map.getPlayer().move(0, -1);
                 map.getPlayer().attack(0, -1);
                 refresh();
                 break;
-            case DOWN:
+            case S:
                 map.getPlayer().move(0, 1);
                 map.getPlayer().attack(0, 1);
                 refresh();
                 break;
-            case LEFT:
+            case A:
                 map.getPlayer().move(-1, 0);
                 map.getPlayer().attack(-1, 0);
                 refresh();
                 break;
-            case RIGHT:
+            case D:
                 map.getPlayer().move(1, 0);
                 map.getPlayer().attack(1, 0);
+                refresh();
+                break;
+            case SPACE:
+                pickupBtn.fire();
+                keyEvent.consume();
                 refresh();
                 break;
         }

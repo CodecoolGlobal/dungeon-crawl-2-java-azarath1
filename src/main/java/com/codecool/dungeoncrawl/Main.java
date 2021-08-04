@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -31,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +46,7 @@ public class Main extends Application {
     int CANVAS_WIDTH = 22;
     int CANVAS_HEIGHT = 17;
     GameMap map = MapLoader.loadMap();
+    GameDatabaseManager db = new GameDatabaseManager();
     Canvas canvas = new Canvas(
             CANVAS_WIDTH * Tiles.TILE_WIDTH,
             CANVAS_HEIGHT * Tiles.TILE_WIDTH);
@@ -58,6 +61,11 @@ public class Main extends Application {
     Button pickupBtn = new Button("Pick Up");
     KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
     GridPane ui = new GridPane();
+    int mapNum = 0;
+    String currentMap = "";
+
+    public Main() throws SQLException {
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -261,6 +269,7 @@ public class Main extends Application {
     //SAVING MODAL
     //TODO: connect with database
     private void saveModal(Player player) {
+        System.out.println(MapLoader.getCounter());
         //Background modifier for blur effect
         ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
         GaussianBlur blur = new GaussianBlur(55);
@@ -280,7 +289,19 @@ public class Main extends Application {
 
         //Button events
         saveBtn.setOnAction(value -> {
-            saveLabel.setText(saveName.getText());
+            map.getPlayer().setName(nameLabel.getText());
+            mapNum = MapLoader.getCounter();
+            try {
+                db.saveGameState(getCurrentMap(mapNum), db.savePlayer(map.getPlayer()));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+            GaussianBlur blurOff = new GaussianBlur(0);
+            adjZero.setInput(blurOff);
+            canvas.setEffect(adjZero);
+            ui.setEffect(adjZero);
+            confirmWindow.close();
         });
 
         cancelBtn.setOnAction(e -> {
@@ -300,6 +321,14 @@ public class Main extends Application {
         confirmWindow.setScene(scene1);
         confirmWindow.showAndWait();
     }
+
+    private String getCurrentMap(int mapNum) {
+        if (mapNum == 1) {
+            return "/map.txt";
+        }
+        else return "/map3.txt";
+    }
+
     private void refresh() {
         int startX = map.getPlayer().getX() - CANVAS_WIDTH / 2;
         if (startX < 0) startX = 0;

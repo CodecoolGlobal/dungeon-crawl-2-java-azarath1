@@ -11,7 +11,6 @@ import java.util.List;
 public abstract class Characters extends Actor{
     private int health = 30;
     private int damage = 10;
-    private String name;
     private boolean godMode = false;
     private int turnCount = 0;
     private boolean enemy = false;
@@ -205,4 +204,5 @@ public abstract class Characters extends Actor{
     public String getTileName() {
         return "EmptyCharacter";
     }
+
 }

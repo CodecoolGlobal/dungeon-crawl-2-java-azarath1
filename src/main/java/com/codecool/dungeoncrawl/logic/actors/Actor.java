@@ -26,4 +26,7 @@ public abstract class Actor implements Drawable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

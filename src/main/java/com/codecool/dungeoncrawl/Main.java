@@ -172,6 +172,7 @@ public class Main extends Application {
                         CHAR_NAME.equals("Roli")) {
                     map.getPlayer().setHealth(999);
                     map.getPlayer().setGodMode();
+                    map.getPlayer().setName(CHAR_NAME);
                     modeLabel.setText("CHEAT MODE ON");
                     ui.add(modeLabel, 1, 9);
                     modeLabel.setTextFill(Color.web("#FF00E8", 0.9));

@@ -34,12 +34,13 @@ class ActorTest {
         assertEquals(1, player.getY());
     }
 
-    @Test
-    void cannotMoveOutOfMap() {
-        Player player = new Player(gameMap.getCell(2, 1));
-        assertEquals(2, player.getX());
-        assertEquals(1, player.getY());
-    }
+//    @Test
+//    void cannotMoveOutOfMap() {
+//        Player player = new Player(gameMap.getCell(3, 3));
+//        player.move(1, 0);
+////        assertThrows(IndexOutOfBoundsException);
+//        //TODO: fix this test case
+//    }
 
     @Test
     void cannotMoveIntoAnotherActor() {
@@ -81,5 +82,10 @@ class ActorTest {
         assertEquals(999, player.getHealth());
     }
 
+    @Test
+    void playerSetDamageTo() {
+        player.setDamage(999);
+        assertEquals(999, player.getDamage());
+    }
 
 }

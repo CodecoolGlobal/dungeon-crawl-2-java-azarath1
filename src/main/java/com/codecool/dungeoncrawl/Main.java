@@ -9,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.props.Items;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -44,6 +45,7 @@ public class Main extends Application {
     String CHAR_NAME;
     int CANVAS_WIDTH = 22;
     int CANVAS_HEIGHT = 17;
+    GameDatabaseManager gm = new GameDatabaseManager();
     GameMap map = MapLoader.loadMap();
     GameDatabaseManager db = new GameDatabaseManager();
     Canvas canvas = new Canvas(
@@ -121,6 +123,7 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(canvas);
         borderPane.setLeft(ui);
+        //SaveMenu
         loadButton.setOnAction(actionEvent -> {
             Stage confirmWindow = new Stage();
             confirmWindow.initModality(Modality.APPLICATION_MODAL);
@@ -130,7 +133,11 @@ public class Main extends Application {
             Button loadBtn = new Button("Load");
             Button cancelBtn = new Button("Cancel");
             ListView<String> saveContainers = new ListView<>();
-            saveContainers.getItems().addAll("Test1", "Test2");
+            List<PlayerModel>pms = gm.getAllPlayer();
+            for (int i = 0; i <pms.size() ; i++) {
+                saveContainers.getItems().add(pms.get(i).getPlayerName());
+            }
+
             saveContainers.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
             //Button events
@@ -276,7 +283,7 @@ public class Main extends Application {
             mapNum = MapLoader.getCounter();
             try {
                 db.saveGameState(getCurrentMap(mapNum), db.savePlayer(map.getPlayer()));
-                tests(map.getPlayer().getInventory());
+                inventorySave(map.getPlayer().getInventory());
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -361,8 +368,8 @@ public class Main extends Application {
         System.out.println(map.getPlayer().getX() + " " + map.getPlayer().getY());
     }
 
-    public void tests(ArrayList<Items> inventory) throws SQLException {
-        GameDatabaseManager gm = new GameDatabaseManager();
+    public void inventorySave(ArrayList<Items> inventory) throws SQLException {
+
         gm.saveInventory(inventory);
     }
 

@@ -13,6 +13,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -50,6 +51,10 @@ public class GameDatabaseManager {
             inventoryDao.add(inventoryModel);
         }
 
+    }
+    public List<PlayerModel> getAllPlayer(){
+        System.out.println(playerDao.getAll());
+        return playerDao.getAll();
     }
 
     private DataSource connect() throws SQLException {

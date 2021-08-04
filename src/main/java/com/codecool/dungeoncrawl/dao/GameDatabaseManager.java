@@ -1,8 +1,12 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
+
 import com.codecool.dungeoncrawl.logic.props.Items;
 import com.codecool.dungeoncrawl.model.InventoryModel;
+
+import com.codecool.dungeoncrawl.model.GameState;
+
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -12,17 +16,30 @@ import java.util.ArrayList;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
-    private PlayerInventoryDaoJdbc inventoryDao;
-    private int lastId;
+    private GameStateDao gameStateDao;
+      private PlayerInventoryDaoJdbc inventoryDao;
+
+    public GameDatabaseManager() throws SQLException {
+        setup();
+    }
+
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
+        gameStateDao = new GameStateDaoJdbc(dataSource);
         inventoryDao = new PlayerInventoryDaoJdbc(dataSource);
     }
 
-    public void savePlayer(Player player) {
+    public void saveGameState(String currentMap, PlayerModel player) throws SQLException {
+        GameState model = new GameState(currentMap, player);
+        gameStateDao.add(model);
+    }
+
+    public PlayerModel savePlayer(Player player) {
         PlayerModel model = new PlayerModel(player);
         playerDao.add(model);
+        return model;
+
 
     }
     public void saveInventory(ArrayList<Items> inventory){
@@ -31,6 +48,7 @@ public class GameDatabaseManager {
             InventoryModel inventoryModel = new InventoryModel(inventory.get(i));
             inventoryDao.add(inventoryModel);
         }
+
     }
 
     private DataSource connect() throws SQLException {

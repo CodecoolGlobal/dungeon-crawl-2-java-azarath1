@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+
 import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
+
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -48,6 +50,7 @@ public class Main extends Application {
     int CANVAS_WIDTH = 22;
     int CANVAS_HEIGHT = 17;
     GameMap map = MapLoader.loadMap();
+    GameDatabaseManager db = new GameDatabaseManager();
     Canvas canvas = new Canvas(
             CANVAS_WIDTH * Tiles.TILE_WIDTH,
             CANVAS_HEIGHT * Tiles.TILE_WIDTH);
@@ -62,6 +65,11 @@ public class Main extends Application {
     Button pickupBtn = new Button("Pick Up");
     KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
     GridPane ui = new GridPane();
+    int mapNum = 0;
+    String currentMap = "";
+
+    public Main() throws SQLException {
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -266,6 +274,7 @@ public class Main extends Application {
     //SAVING MODAL
     //TODO: connect with database
     private void saveModal(Player player) {
+        System.out.println(MapLoader.getCounter());
         //Background modifier for blur effect
         ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
         GaussianBlur blur = new GaussianBlur(55);
@@ -289,11 +298,19 @@ public class Main extends Application {
             System.out.println(map.getPlayer().getInventory());
             map.getPlayer().setInventory(map.getPlayer().getInventory());
             saveLabel.setText(saveName.getText());
+            mapNum = MapLoader.getCounter();
             try {
-                tests(map.getPlayer(), map.getPlayer().getInventory());
+                db.saveGameState(getCurrentMap(mapNum), db.savePlayer(map.getPlayer()));
+              tests(map.getPlayer().getInventory());
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+            GaussianBlur blurOff = new GaussianBlur(0);
+            adjZero.setInput(blurOff);
+            canvas.setEffect(adjZero);
+            ui.setEffect(adjZero);
+            confirmWindow.close();
         });
 
         cancelBtn.setOnAction(e -> {
@@ -313,6 +330,14 @@ public class Main extends Application {
         confirmWindow.setScene(scene1);
         confirmWindow.showAndWait();
     }
+
+    private String getCurrentMap(int mapNum) {
+        if (mapNum == 1) {
+            return "/map.txt";
+        }
+        else return "/map3.txt";
+    }
+
     private void refresh() {
         int startX = map.getPlayer().getX() - CANVAS_WIDTH / 2;
         if (startX < 0) startX = 0;
@@ -372,10 +397,9 @@ public class Main extends Application {
     public void shoutxy(){
         System.out.println(map.getPlayer().getX()+" "+map.getPlayer().getY());
     }
-    public void tests(Player p, ArrayList<Items> inventory) throws SQLException {
+    public void tests(ArrayList<Items> inventory) throws SQLException {
         GameDatabaseManager gm = new GameDatabaseManager();
         gm.setup();
-        gm.savePlayer(p);
         gm.saveInventory(inventory);
     }
 }

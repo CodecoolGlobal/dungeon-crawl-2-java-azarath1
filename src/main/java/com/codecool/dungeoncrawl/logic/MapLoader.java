@@ -195,4 +195,9 @@ public class MapLoader {
         }
         return map;
     }
+
+    public static int getCounter() {
+        return counter;
+    }
+
 }

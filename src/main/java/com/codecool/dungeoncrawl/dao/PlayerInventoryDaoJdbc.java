@@ -22,7 +22,7 @@ public class PlayerInventoryDaoJdbc implements InventoryDao {
             String sql = "INSERT INTO inventory ( item_name, player_id, object_name, amount) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, inventory.getItem_name());
-            statement.setInt(2,getLastId());
+            statement.setInt(2, getLastId());
             statement.setString(3, inventory.getObjectname());
             statement.setInt(4, inventory.getAmount());
             statement.executeUpdate();
@@ -38,7 +38,8 @@ public class PlayerInventoryDaoJdbc implements InventoryDao {
     public void update(PlayerModel player) {
 
     }
-    public int getLastId(){
+
+    public int getLastId() {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT id FROM player ORDER BY id DESC limit 1";
             Statement prep = conn.createStatement();

@@ -15,7 +15,6 @@ public class Player extends Characters {
     }
 
 
-
     @Override
     public String getName() {
         return name;

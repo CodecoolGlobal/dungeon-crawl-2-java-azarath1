@@ -2,8 +2,6 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 
-import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
-
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -11,12 +9,10 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.props.Items;
-import com.codecool.dungeoncrawl.logic.props.Weapon;
 import javafx.application.Application;
-import javafx.beans.Observable;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,7 +35,6 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Main extends Application {
     boolean deathTrigger = false;
@@ -66,7 +61,6 @@ public class Main extends Application {
     KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
     GridPane ui = new GridPane();
     int mapNum = 0;
-    String currentMap = "";
 
     public Main() throws SQLException {
     }
@@ -76,7 +70,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         //MAIN MENU
         GridPane mainMenu = new GridPane();
         mainMenu.setPadding(new Insets(10));
@@ -94,7 +88,7 @@ public class Main extends Application {
         Button startButton = new Button("Start Game");
         Button loadButton = new Button("Load Game");
         mainMenu.add(startButton, 0, 3);
-        mainMenu.add(loadButton,0,4);
+        mainMenu.add(loadButton, 0, 4);
         startButton.setAlignment(Pos.CENTER);
         startButton.setFocusTraversable(false);
         loadButton.setAlignment(Pos.CENTER);
@@ -127,101 +121,80 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(canvas);
         borderPane.setLeft(ui);
-        loadButton.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Stage confirmWindow = new Stage();
-                confirmWindow.initModality(Modality.APPLICATION_MODAL);
-                confirmWindow.setTitle("Load Game");
-                Label loadLabel = new Label();
-               loadLabel.setText("Select a save:");
-                Button loadBtn = new Button("Load");
-                Button cancelBtn = new Button("Cancel");
-                ListView<String> saveContainers = new ListView<>();
-                saveContainers.getItems().addAll("Test1","Test2");
-                saveContainers.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        loadButton.setOnAction(actionEvent -> {
+            Stage confirmWindow = new Stage();
+            confirmWindow.initModality(Modality.APPLICATION_MODAL);
+            confirmWindow.setTitle("Load Game");
+            Label loadLabel = new Label();
+            loadLabel.setText("Select a save:");
+            Button loadBtn = new Button("Load");
+            Button cancelBtn = new Button("Cancel");
+            ListView<String> saveContainers = new ListView<>();
+            saveContainers.getItems().addAll("Test1", "Test2");
+            saveContainers.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                //Button events
-                loadBtn.setOnAction(value -> {
-                    ObservableList<String> options = saveContainers.getSelectionModel().getSelectedItems();
+            //Button events
+            loadBtn.setOnAction(value -> {
+                ObservableList<String> options = saveContainers.getSelectionModel().getSelectedItems();
 
-                });
-                //Button events
+            });
+            //Button events
+            cancelBtn.setOnAction(e -> {
+                clearVision();
+                confirmWindow.close();
+            });
 
-                cancelBtn.setOnAction(e -> {
-                    ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-                    GaussianBlur blurOff = new GaussianBlur(0);
-                    adjZero.setInput(blurOff);
-                    canvas.setEffect(adjZero);
-                    ui.setEffect(adjZero);
-                    confirmWindow.close();
-                });
-
-                //set stage modal - add elements to stage set scene etc...
-                VBox layout = new VBox(10);
-                layout.getChildren().addAll(loadLabel, saveContainers,  loadBtn, cancelBtn);
-                layout.setAlignment(Pos.CENTER);
-                Scene scene1 = new Scene(layout, 500, 300);
-                confirmWindow.setScene(scene1);
-                confirmWindow.showAndWait();
-            }
+            //set stage modal - add elements to stage set scene etc...
+            VBox layout = new VBox(10);
+            layout.getChildren().addAll(loadLabel, saveContainers, loadBtn, cancelBtn);
+            layout.setAlignment(Pos.CENTER);
+            Scene scene1 = new Scene(layout, 500, 300);
+            confirmWindow.setScene(scene1);
+            confirmWindow.showAndWait();
         });
         //*Game Scene
         Scene scene = new Scene(borderPane);
-        startButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                CHAR_NAME = userTextField.getText();
-                primaryStage.setScene(scene);
-                playerLabel.setText("Player: ");
-                ui.add(playerLabel, 1, 0);
-                playerLabel.setTextFill(Color.web("#872E7F", 0.9));
-                nameLabel.setText(CHAR_NAME);
-                nameLabel.setTextFill(Color.web("#872E7F", 0.9));
-                ui.add(nameLabel, 1, 1);
-                if (CHAR_NAME.equals("Konrád") ||
-                        CHAR_NAME.equals("Gergő") ||
-                        CHAR_NAME.equals("Roli")) {
-                    map.getPlayer().setHealth(999);
-                    map.getPlayer().setGodMode();
-                    map.getPlayer().setName(CHAR_NAME);
-                    modeLabel.setText("CHEAT MODE ON");
-                    ui.add(modeLabel, 1, 9);
-                    modeLabel.setTextFill(Color.web("#FF00E8", 0.9));
-                    refresh();
-                }
+        startButton.setOnAction(e -> {
+            CHAR_NAME = userTextField.getText();
+            primaryStage.setScene(scene);
+            playerLabel.setText("Player: ");
+            ui.add(playerLabel, 1, 0);
+            playerLabel.setTextFill(Color.web("#872E7F", 0.9));
+            nameLabel.setText(CHAR_NAME);
+            nameLabel.setTextFill(Color.web("#872E7F", 0.9));
+            ui.add(nameLabel, 1, 1);
+            if (CHAR_NAME.equals("Konrád") ||
+                    CHAR_NAME.equals("Gergő") ||
+                    CHAR_NAME.equals("Roli")) {
+                map.getPlayer().setHealth(999);
+                map.getPlayer().setGodMode();
+                map.getPlayer().setName(CHAR_NAME);
+                modeLabel.setText("CHEAT MODE ON");
+                ui.add(modeLabel, 1, 9);
+                modeLabel.setTextFill(Color.web("#FF00E8", 0.9));
+                refresh();
             }
         });
 
-        scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (saveShortcut.match(event)) {
-                    saveModal(map.getPlayer());
-                }
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+            if (saveShortcut.match(event)) {
+                saveModal();
             }
-
         });
-
-        //Death Scene
-        if (deathTrigger) {
-            GridPane deathShow = new GridPane();
-            deathShow.setPadding(new Insets(10));
-            deathShow.setAlignment(Pos.CENTER);
-            deathShow.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-            deathShow.setVgap(3);
-            deathShow.add(new Label("GAME OVER"), 0, 0);
-            Button resButton = new Button("Restart");
-            deathShow.add(resButton, 0, 1);
-            deathShow.setAlignment(Pos.CENTER);
-            deathShow.setFocusTraversable(false);
-            primaryStage.getScene().setRoot(deathShow);
-        }
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
         primaryStage.setTitle("Dungeons & Demos");
         primaryStage.show();
+    }
+
+    // Clearing blur effect on canvas and panes
+    private void clearVision() {
+        ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+        GaussianBlur blurOff = new GaussianBlur(0);
+        adjZero.setInput(blurOff);
+        canvas.setEffect(adjZero);
+        ui.setEffect(adjZero);
     }
 
     private void handle(ActionEvent actionEvent) {
@@ -239,6 +212,7 @@ public class Main extends Application {
 
 
     }
+
     //---KEY controls
     private void onKeyPressed(KeyEvent keyEvent) {
         shoutxy();
@@ -272,9 +246,7 @@ public class Main extends Application {
     }
 
     //SAVING MODAL
-    //TODO: connect with database
-    private void saveModal(Player player) {
-        System.out.println(MapLoader.getCounter());
+    private void saveModal() {
         //Background modifier for blur effect
         ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
         GaussianBlur blur = new GaussianBlur(55);
@@ -293,32 +265,27 @@ public class Main extends Application {
         TextField saveName = new TextField();
 
         //Button events
+        confirmWindow.setOnCloseRequest(e -> {
+            clearVision();
+            confirmWindow.close();
+        });
+
         saveBtn.setOnAction(value -> {
             map.getPlayer().setName(nameLabel.getText());
-            System.out.println(map.getPlayer().getInventory());
             map.getPlayer().setInventory(map.getPlayer().getInventory());
-            saveLabel.setText(saveName.getText());
             mapNum = MapLoader.getCounter();
             try {
                 db.saveGameState(getCurrentMap(mapNum), db.savePlayer(map.getPlayer()));
-              tests(map.getPlayer().getInventory());
+                tests(map.getPlayer().getInventory());
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-            GaussianBlur blurOff = new GaussianBlur(0);
-            adjZero.setInput(blurOff);
-            canvas.setEffect(adjZero);
-            ui.setEffect(adjZero);
+            clearVision();
             confirmWindow.close();
         });
 
         cancelBtn.setOnAction(e -> {
-            ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-            GaussianBlur blurOff = new GaussianBlur(0);
-            adjZero.setInput(blurOff);
-            canvas.setEffect(adjZero);
-            ui.setEffect(adjZero);
+            clearVision();
             confirmWindow.close();
         });
 
@@ -334,8 +301,7 @@ public class Main extends Application {
     private String getCurrentMap(int mapNum) {
         if (mapNum == 1) {
             return "/map.txt";
-        }
-        else return "/map3.txt";
+        } else return "/map3.txt";
     }
 
     private void refresh() {
@@ -377,29 +343,95 @@ public class Main extends Application {
             refresh();
         }
 
-        if(!map.isAlive()) {
-            Alert a = new Alert(Alert.AlertType.WARNING);
+        if (!map.isAlive()) {
             this.deathTrigger = true;
-            a.setContentText("GAME OVER");
-            a.show();
+            deathModal();
         }
 
-        if(map.isOnEndTile()){
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setContentText("You Won! Congratulations!");
-            a.show();
+        if (map.isOnEndTile()) {
+            winModal();
         }
 
         healthLabel.setText("Health: " + map.getPlayer().getHealth());
         inventoryLabel.setText("Inventory: " + map.getPlayer().getInventoryString());
         attackLabel.setText("Strength: " + map.getPlayer().getDamage());
     }
-    public void shoutxy(){
-        System.out.println(map.getPlayer().getX()+" "+map.getPlayer().getY());
+
+    public void shoutxy() {
+        System.out.println(map.getPlayer().getX() + " " + map.getPlayer().getY());
     }
+
     public void tests(ArrayList<Items> inventory) throws SQLException {
         GameDatabaseManager gm = new GameDatabaseManager();
-        gm.setup();
         gm.saveInventory(inventory);
+    }
+
+    private void deathModal() {
+        //Background modifier for blur effect
+        ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
+        GaussianBlur blur = new GaussianBlur(55);
+        context.setFill(Color.BLACK);
+        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        adj.setInput(blur);
+        context.setEffect(adj);
+        ui.setEffect(adj);
+
+        //new modal creation
+        Stage deathWindow = new Stage();
+        deathWindow.initModality(Modality.APPLICATION_MODAL);
+        deathWindow.setTitle("DIED");
+        Button terminateBtn = new Button("TERMINATE");
+
+        //Button events
+        terminateBtn.setOnAction(e -> {
+            clearVision();
+            deathWindow.close();
+            Platform.exit();
+
+        });
+        //set stage modal - add elements to stage set scene etc...
+        VBox layout = new VBox(10);
+        layout.setBackground(new Background(new BackgroundFill(Color.rgb(100, 0, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+        Image deathImg = new Image("File:src/main/resources/skul.png");
+        ImageView img = new ImageView(deathImg);
+        img.setFitHeight(50);
+        img.setPreserveRatio(true);
+        layout.getChildren().addAll(terminateBtn, img);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1 = new Scene(layout, 250, 200);
+        deathWindow.setScene(scene1);
+        deathWindow.showAndWait();
+    }
+
+    private void winModal() {
+        //Background modifier for blur effect
+        ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
+        GaussianBlur blur = new GaussianBlur(55);
+        adj.setInput(blur);
+        context.setEffect(adj);
+        ui.setEffect(adj);
+
+        //new modal creation
+        Stage winWindow = new Stage();
+        winWindow.initModality(Modality.APPLICATION_MODAL);
+        winWindow.setTitle("WON");
+        Label wonLabel = new Label();
+        wonLabel.setText("Nice work! \nYou found the ancient knowledge of ZERO WIDTH NON-JOINER");
+        Button noiceBtn = new Button("But, that's nothing!");
+
+        //Button events
+        noiceBtn.setOnAction(e -> {
+            clearVision();
+            winWindow.close();
+            Platform.exit();
+
+        });
+        //set stage modal - add elements to stage set scene etc...
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(wonLabel, noiceBtn);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1 = new Scene(layout, 600, 200);
+        winWindow.setScene(scene1);
+        winWindow.showAndWait();
     }
 }

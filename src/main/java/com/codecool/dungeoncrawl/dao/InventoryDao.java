@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface InventoryDao {
     void add(InventoryModel inventory);
+
     void update(PlayerModel player);
+
     PlayerModel get(int id);
+
     List<PlayerModel> getAll();
 }

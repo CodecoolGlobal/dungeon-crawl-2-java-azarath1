@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface GameStateDao {
     void add(GameState state) throws SQLException;
+
     void update(GameState state);
+
     GameState get(int id);
+
     List<GameState> getAll();
 }

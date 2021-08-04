@@ -42,12 +42,13 @@ public class Cell implements Drawable {
         this.type = type;
     }
 
-public void setDoor(Door door){
+    public void setDoor(Door door) {
         this.door = door;
-}
-public Door getDoor(){
+    }
+
+    public Door getDoor() {
         return door;
-}
+    }
 
     public void setActor(Actor actor) {
         this.actor = actor;

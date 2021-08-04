@@ -56,13 +56,13 @@ public class GameMap {
         Cell characterCell = player.getCell();
         if (characterCell.getType() == CellType.EXIT) {
             return true;
-        }else return false;
+        } else return false;
     }
 
     public boolean isAlive() {
-        if (player.getHealth()<1) {
+        if (player.getHealth() < 1) {
             return false;
-        }else return true;
+        } else return true;
     }
 }
 

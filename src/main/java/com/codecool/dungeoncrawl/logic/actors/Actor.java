@@ -19,6 +19,7 @@ public abstract class Actor implements Drawable {
         this.cell.setActor(this);
         this.cell.setDefaultActor(this);
     }
+
     public void update() {
     }
 

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class GameDatabaseManager {
     private PlayerDao playerDao;
     private GameStateDao gameStateDao;
-      private PlayerInventoryDaoJdbc inventoryDao;
+    private PlayerInventoryDaoJdbc inventoryDao;
 
     public GameDatabaseManager() throws SQLException {
         setup();
@@ -42,7 +42,8 @@ public class GameDatabaseManager {
 
 
     }
-    public void saveInventory(ArrayList<Items> inventory){
+
+    public void saveInventory(ArrayList<Items> inventory) {
         for (int i = 0; i < inventory.size(); i++) {
             System.out.println("Setting up inventory");
             InventoryModel inventoryModel = new InventoryModel(inventory.get(i));

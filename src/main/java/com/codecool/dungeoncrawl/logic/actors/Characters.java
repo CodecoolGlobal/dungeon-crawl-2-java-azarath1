@@ -8,7 +8,7 @@ import com.codecool.dungeoncrawl.logic.props.Weapon;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Characters extends Actor{
+public abstract class Characters extends Actor {
     private int health = 30;
     private int damage = 10;
     private boolean godMode = false;
@@ -21,6 +21,7 @@ public abstract class Characters extends Actor{
         super(cell);
         this.cell.setCharacter(this);
     }
+
     public int getHealth() {
         return health;
     }
@@ -32,13 +33,15 @@ public abstract class Characters extends Actor{
     public void addToInventory(Items item) {
         inventory.add(item);
     }
-    public void removeFromInventory(Items item){
+
+    public void removeFromInventory(Items item) {
         inventory.remove(item);
     }
+
     public void attack(int x, int y) {
         Actor target = cell.getNeighbor(x, y).getActor();
-        List<String> monsters = List.of("spider", "ghost", "skeleton","necromancer");
-        if (!(target instanceof Items)&&target != null && ((Characters) target).isEnemy() != this.isEnemy()) {
+        List<String> monsters = List.of("spider", "ghost", "skeleton", "necromancer");
+        if (!(target instanceof Items) && target != null && ((Characters) target).isEnemy() != this.isEnemy()) {
             System.out.println("Hit");
             ((Characters) target).damageDone(damage);
             if (monsters.contains(target.getTileName()) && !((Characters) target).isFirsthit()) {
@@ -49,6 +52,7 @@ public abstract class Characters extends Actor{
 
         }
     }
+
     public void move(int dx, int dy) {
         turnCount += 1;
         Cell nextCell = cell.getNeighbor(dx, dy);
@@ -64,24 +68,21 @@ public abstract class Characters extends Actor{
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-        }
-        else if (checkCollisionWithDoor(nextCell) && nextCell.getDoor().isOpen()) {
+        } else if (checkCollisionWithDoor(nextCell) && nextCell.getDoor().isOpen()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-        }
-        else if (checkCollisionWithDoor(nextCell) && getInventoryString().contains("Key") && !nextCell.getDoor().isOpen()) {
+        } else if (checkCollisionWithDoor(nextCell) && getInventoryString().contains("Key") && !nextCell.getDoor().isOpen()) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
             cell.getDoor().setOpen(true);
-           Items removable = inventory.stream()
+            Items removable = inventory.stream()
                     .filter(x -> x.getName() == "Key")
                     .findFirst()
                     .get();
-           removeFromInventory(removable);
-        }
-        else if (godMode && !checkCollisionWithFence(nextCell)) {
+            removeFromInventory(removable);
+        } else if (godMode && !checkCollisionWithFence(nextCell)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -125,8 +126,6 @@ public abstract class Characters extends Actor{
     }
 
 
-
-
     public Cell getCell() {
         return cell;
     }
@@ -142,7 +141,6 @@ public abstract class Characters extends Actor{
     public int getY() {
         return cell.getY();
     }
-
 
 
     public boolean isEnemy() {
@@ -190,13 +188,14 @@ public abstract class Characters extends Actor{
     public int getMostPowerfulWeaponAttack() {
         int last = 0;
         for (int i = 0; i < inventory.size(); i++) {
-            if(inventory.get(i) instanceof Weapon && ((Weapon) inventory.get(i)).getDamage() > last){
+            if (inventory.get(i) instanceof Weapon && ((Weapon) inventory.get(i)).getDamage() > last) {
                 last = ((Weapon) inventory.get(i)).getDamage();
                 System.out.println(last);
             }
         }
         return damage + last;
     }
+
     public String getInventoryString() {
         String content = "";
         for (int i = 0; i < inventory.size(); i++) {
@@ -208,6 +207,7 @@ public abstract class Characters extends Actor{
         }
         return content;
     }
+
     @Override
     public String getTileName() {
         return "EmptyCharacter";

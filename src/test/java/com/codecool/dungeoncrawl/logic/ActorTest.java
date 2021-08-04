@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -86,6 +85,18 @@ class ActorTest {
     void playerSetDamageTo() {
         player.setDamage(999);
         assertEquals(999, player.getDamage());
+    }
+
+    @Test
+    void isEnemyTrue() {
+        Skeleton skeleton = new Skeleton(gameMap.getCell(2, 1));
+        Ghost ghost = new Ghost(gameMap.getCell(1, 1));
+        Necromancer necromancer = new Necromancer(gameMap.getCell(1, 2));
+        Spider spider = new Spider(gameMap.getCell(1, 2));
+        assertTrue(skeleton.isEnemy());
+        assertTrue(ghost.isEnemy());
+        assertTrue(necromancer.isEnemy());
+        assertTrue(spider.isEnemy());
     }
 
 }

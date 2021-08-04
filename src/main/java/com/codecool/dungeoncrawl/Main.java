@@ -138,11 +138,7 @@ public class Main extends Application {
             });
             //Button events
             cancelBtn.setOnAction(e -> {
-                ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-                GaussianBlur blurOff = new GaussianBlur(0);
-                adjZero.setInput(blurOff);
-                canvas.setEffect(adjZero);
-                ui.setEffect(adjZero);
+                clearVision();
                 confirmWindow.close();
             });
 
@@ -205,6 +201,15 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    // Clearing blur effect on canvas and panes
+    private void clearVision() {
+        ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
+        GaussianBlur blurOff = new GaussianBlur(0);
+        adjZero.setInput(blurOff);
+        canvas.setEffect(adjZero);
+        ui.setEffect(adjZero);
+    }
+
     private void handle(ActionEvent actionEvent) {
         if (map.getCell(map.getPlayer().getX(), map.getPlayer().getY()).getType() == CellType.WEAPON) {
             map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
@@ -254,9 +259,7 @@ public class Main extends Application {
     }
 
     //SAVING MODAL
-    //TODO: connect with database
     private void saveModal() {
-        System.out.println(MapLoader.getCounter());
         //Background modifier for blur effect
         ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
         GaussianBlur blur = new GaussianBlur(55);
@@ -275,6 +278,11 @@ public class Main extends Application {
         TextField saveName = new TextField();
 
         //Button events
+        confirmWindow.setOnCloseRequest(e -> {
+            clearVision();
+            confirmWindow.close();
+        });
+
         saveBtn.setOnAction(value -> {
             map.getPlayer().setName(nameLabel.getText());
             map.getPlayer().setInventory(map.getPlayer().getInventory());
@@ -285,20 +293,12 @@ public class Main extends Application {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-            GaussianBlur blurOff = new GaussianBlur(0);
-            adjZero.setInput(blurOff);
-            canvas.setEffect(adjZero);
-            ui.setEffect(adjZero);
+            clearVision();
             confirmWindow.close();
         });
 
         cancelBtn.setOnAction(e -> {
-            ColorAdjust adjZero = new ColorAdjust(0, 0, 0, 0);
-            GaussianBlur blurOff = new GaussianBlur(0);
-            adjZero.setInput(blurOff);
-            canvas.setEffect(adjZero);
-            ui.setEffect(adjZero);
+            clearVision();
             confirmWindow.close();
         });
 

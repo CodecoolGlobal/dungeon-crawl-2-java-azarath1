@@ -344,17 +344,12 @@ public class Main extends Application {
         }
 
         if (!map.isAlive()) {
-//            Alert a = new Alert(Alert.AlertType.WARNING);
             this.deathTrigger = true;
-//            a.setContentText("GAME OVER");
-//            a.show();
             deathModal();
         }
 
         if (map.isOnEndTile()) {
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setContentText("You Won! Congratulations!");
-            a.show();
+            winModal();
         }
 
         healthLabel.setText("Health: " + map.getPlayer().getHealth());
@@ -406,5 +401,37 @@ public class Main extends Application {
         Scene scene1 = new Scene(layout, 250, 200);
         deathWindow.setScene(scene1);
         deathWindow.showAndWait();
+    }
+
+    private void winModal() {
+        //Background modifier for blur effect
+        ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
+        GaussianBlur blur = new GaussianBlur(55);
+        adj.setInput(blur);
+        context.setEffect(adj);
+        ui.setEffect(adj);
+
+        //new modal creation
+        Stage winWindow = new Stage();
+        winWindow.initModality(Modality.APPLICATION_MODAL);
+        winWindow.setTitle("WON");
+        Label wonLabel = new Label();
+        wonLabel.setText("Nice work! \nYou found the ancient knowledge of ZERO WIDTH NON-JOINER");
+        Button noiceBtn = new Button("But, that's nothing!");
+
+        //Button events
+        noiceBtn.setOnAction(e -> {
+            clearVision();
+            winWindow.close();
+            Platform.exit();
+
+        });
+        //set stage modal - add elements to stage set scene etc...
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(wonLabel, noiceBtn);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1 = new Scene(layout, 600, 200);
+        winWindow.setScene(scene1);
+        winWindow.showAndWait();
     }
 }

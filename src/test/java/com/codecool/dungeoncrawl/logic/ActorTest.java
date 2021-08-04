@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ActorTest {
     GameMap gameMap;
-    Player player;
 
 
     @BeforeEach
@@ -63,5 +62,16 @@ class ActorTest {
         assertEquals(1, player.getX());
         assertEquals(1, player.getY());
     }
+
+    @Test
+    void godModeMoveThroughWalls() {
+        Player player = new Player(gameMap.getCell(1, 1));
+        player.setGodMode();
+        gameMap.getCell(2, 1).setType(CellType.WALL);
+        player.move(1, 0);
+        assertEquals(2, player.getX());
+        assertEquals(1, player.getY());
+    }
+
 
 }

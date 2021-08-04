@@ -73,9 +73,12 @@ class ActorTest {
         assertEquals(1, player.getY());
     }
 
-    void godModeHealthIsHigher() {
+    @Test
+    void playerIsInGodMode() {
         Player player = new Player(gameMap.getCell(1, 1));
         player.setGodMode();
-        assertEquals(999, player.getHealth());
+        assertTrue(player.isGodMode());
     }
+
+
 }

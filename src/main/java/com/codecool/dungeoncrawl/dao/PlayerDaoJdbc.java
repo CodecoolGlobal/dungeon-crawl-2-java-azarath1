@@ -37,6 +37,7 @@ public class PlayerDaoJdbc implements PlayerDao {
     public void update(PlayerModel player) {
 
     }
+
     @Override
     public PlayerModel get(int id) {
         return null;
@@ -47,7 +48,7 @@ public class PlayerDaoJdbc implements PlayerDao {
         return null;
     }
 
-    public int getLastId(){
+    public int getLastId() {
         return lastId;
     }
 

@@ -10,6 +10,7 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.props.Items;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -39,6 +40,7 @@ public class Main extends Application {
     boolean deathTrigger = false;
     Scene menu;
     Scene deathScene;
+    Stage primaryStage;
     String CHAR_NAME;
     int CANVAS_WIDTH = 22;
     int CANVAS_HEIGHT = 17;
@@ -179,21 +181,6 @@ public class Main extends Application {
                 saveModal();
             }
         });
-
-        //Death Scene
-        if (deathTrigger) {
-            GridPane deathShow = new GridPane();
-            deathShow.setPadding(new Insets(10));
-            deathShow.setAlignment(Pos.CENTER);
-            deathShow.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-            deathShow.setVgap(3);
-            deathShow.add(new Label("GAME OVER"), 0, 0);
-            Button resButton = new Button("Restart");
-            deathShow.add(resButton, 0, 1);
-            deathShow.setAlignment(Pos.CENTER);
-            deathShow.setFocusTraversable(false);
-            primaryStage.getScene().setRoot(deathShow);
-        }
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -357,10 +344,11 @@ public class Main extends Application {
         }
 
         if (!map.isAlive()) {
-            Alert a = new Alert(Alert.AlertType.WARNING);
+//            Alert a = new Alert(Alert.AlertType.WARNING);
             this.deathTrigger = true;
-            a.setContentText("GAME OVER");
-            a.show();
+//            a.setContentText("GAME OVER");
+//            a.show();
+            deathModal();
         }
 
         if (map.isOnEndTile()) {
@@ -381,5 +369,42 @@ public class Main extends Application {
     public void tests(ArrayList<Items> inventory) throws SQLException {
         GameDatabaseManager gm = new GameDatabaseManager();
         gm.saveInventory(inventory);
+    }
+
+    private void deathModal() {
+        //Background modifier for blur effect
+        ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
+        GaussianBlur blur = new GaussianBlur(55);
+        context.setFill(Color.BLACK);
+        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        adj.setInput(blur);
+        context.setEffect(adj);
+        ui.setEffect(adj);
+
+        //new modal creation
+        Stage deathWindow = new Stage();
+        deathWindow.initModality(Modality.APPLICATION_MODAL);
+        deathWindow.setTitle("DIED");
+        Button terminateBtn = new Button("TERMINATE");
+
+        //Button events
+        terminateBtn.setOnAction(e -> {
+            clearVision();
+            deathWindow.close();
+            Platform.exit();
+
+        });
+        //set stage modal - add elements to stage set scene etc...
+        VBox layout = new VBox(10);
+        layout.setBackground(new Background(new BackgroundFill(Color.rgb(100, 0, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+        Image deathImg = new Image("File:src/main/resources/skul.png");
+        ImageView img = new ImageView(deathImg);
+        img.setFitHeight(50);
+        img.setPreserveRatio(true);
+        layout.getChildren().addAll(terminateBtn, img);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1 = new Scene(layout, 250, 200);
+        deathWindow.setScene(scene1);
+        deathWindow.showAndWait();
     }
 }

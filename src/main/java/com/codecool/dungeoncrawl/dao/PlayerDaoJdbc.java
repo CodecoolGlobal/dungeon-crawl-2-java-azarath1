@@ -8,6 +8,7 @@ import java.util.List;
 
 public class PlayerDaoJdbc implements PlayerDao {
     private DataSource dataSource;
+    private int lastId;
 
     public PlayerDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -26,6 +27,7 @@ public class PlayerDaoJdbc implements PlayerDao {
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
             player.setId(resultSet.getInt(1));
+            lastId = resultSet.getInt(1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -35,7 +37,6 @@ public class PlayerDaoJdbc implements PlayerDao {
     public void update(PlayerModel player) {
 
     }
-
     @Override
     public PlayerModel get(int id) {
         return null;
@@ -45,4 +46,9 @@ public class PlayerDaoJdbc implements PlayerDao {
     public List<PlayerModel> getAll() {
         return null;
     }
+
+    public int getLastId(){
+        return lastId;
+    }
+
 }

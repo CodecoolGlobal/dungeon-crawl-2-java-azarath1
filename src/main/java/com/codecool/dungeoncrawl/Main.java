@@ -1,11 +1,14 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.props.Items;
 import com.codecool.dungeoncrawl.logic.props.Weapon;
 import javafx.application.Application;
 import javafx.beans.Observable;
@@ -31,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -229,6 +233,7 @@ public class Main extends Application {
     }
     //---KEY controls
     private void onKeyPressed(KeyEvent keyEvent) {
+        shoutxy();
         switch (keyEvent.getCode()) {
             case W:
                 map.getPlayer().move(0, -1);
@@ -280,7 +285,15 @@ public class Main extends Application {
 
         //Button events
         saveBtn.setOnAction(value -> {
+            map.getPlayer().setName(nameLabel.getText());
+            System.out.println(map.getPlayer().getInventory());
+            map.getPlayer().setInventory(map.getPlayer().getInventory());
             saveLabel.setText(saveName.getText());
+            try {
+                tests(map.getPlayer(), map.getPlayer().getInventory());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         });
 
         cancelBtn.setOnAction(e -> {
@@ -355,5 +368,14 @@ public class Main extends Application {
         healthLabel.setText("Health: " + map.getPlayer().getHealth());
         inventoryLabel.setText("Inventory: " + map.getPlayer().getInventoryString());
         attackLabel.setText("Strength: " + map.getPlayer().getDamage());
+    }
+    public void shoutxy(){
+        System.out.println(map.getPlayer().getX()+" "+map.getPlayer().getY());
+    }
+    public void tests(Player p, ArrayList<Items> inventory) throws SQLException {
+        GameDatabaseManager gm = new GameDatabaseManager();
+        gm.setup();
+        gm.savePlayer(p);
+        gm.saveInventory(inventory);
     }
 }

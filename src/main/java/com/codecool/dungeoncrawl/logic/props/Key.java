@@ -5,7 +5,6 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 
 public class Key extends Items{
     private String name;
-
     public Key(Cell cell, String name) {
         super(cell);
         setName(name);

@@ -94,6 +94,14 @@ public abstract class Characters extends Actor{
         cell = targetCell;
     }
 
+    public ArrayList<Items> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(ArrayList<Items> inventory) {
+        this.inventory = inventory;
+    }
+
     public boolean checkCollisionWithFence(Cell nextCell) {
         return nextCell.getTileName().equals("fence");
     }

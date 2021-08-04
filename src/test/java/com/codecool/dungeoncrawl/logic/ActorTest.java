@@ -9,16 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ActorTest {
     GameMap gameMap;
-
+    Player player;
 
     @BeforeEach
     void setUp() {
         gameMap = new GameMap(3, 3, CellType.FLOOR);
+        player = new Player(gameMap.getCell(1, 1));
     }
 
     @Test
     void moveUpdatesCells() {
-        Player player = new Player(gameMap.getCell(1, 1));
         player.move(1, 0);
         assertEquals(2, player.getX());
         assertEquals(1, player.getY());
@@ -28,7 +28,6 @@ class ActorTest {
 
     @Test
     void cannotMoveIntoWall() {
-        Player player = new Player(gameMap.getCell(1, 1));
         gameMap.getCell(2, 1).setType(CellType.WALL);
         player.move(1, 0);
         assertEquals(1, player.getX());
@@ -44,7 +43,6 @@ class ActorTest {
 
     @Test
     void cannotMoveIntoAnotherActor() {
-        Player player = new Player(gameMap.getCell(1, 1));
         Skeleton skeleton = new Skeleton(gameMap.getCell(2, 1));
         player.move(1, 0);
         assertEquals(1, player.getX());
@@ -56,7 +54,6 @@ class ActorTest {
 
     @Test
     void cannotMoveIntoFence() {
-        Player player = new Player(gameMap.getCell(1, 1));
         gameMap.getCell(2, 1).setType(CellType.FENCE);
         player.move(1, 0);
         assertEquals(1, player.getX());
@@ -65,7 +62,6 @@ class ActorTest {
 
     @Test
     void godModeMoveThroughWalls() {
-        Player player = new Player(gameMap.getCell(1, 1));
         player.setGodMode();
         gameMap.getCell(2, 1).setType(CellType.WALL);
         player.move(1, 0);
@@ -75,14 +71,12 @@ class ActorTest {
 
     @Test
     void playerIsInGodMode() {
-        Player player = new Player(gameMap.getCell(1, 1));
         player.setGodMode();
         assertTrue(player.isGodMode());
     }
 
     @Test
     void playerSetHealthTo() {
-        Player player = new Player(gameMap.getCell(1, 1));
         player.setHealth(999);
         assertEquals(999, player.getHealth());
     }

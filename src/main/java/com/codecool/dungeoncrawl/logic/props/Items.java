@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 
 public abstract class Items extends Actor {
     private String name;
+    private int damage;
     public Items(Cell cell) {
         super(cell);
         this.cell = cell;

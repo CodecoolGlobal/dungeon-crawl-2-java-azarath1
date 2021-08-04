@@ -55,5 +55,13 @@ class ActorTest {
         assertEquals(skeleton, gameMap.getCell(2, 1).getActor());
     }
 
+    @Test
+    void cannotMoveIntoFence() {
+        Player player = new Player(gameMap.getCell(1, 1));
+        gameMap.getCell(2, 1).setType(CellType.FENCE);
+        player.move(1, 0);
+        assertEquals(1, player.getX());
+        assertEquals(1, player.getY());
+    }
 
 }

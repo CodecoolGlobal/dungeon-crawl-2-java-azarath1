@@ -80,5 +80,12 @@ class ActorTest {
         assertTrue(player.isGodMode());
     }
 
+    @Test
+    void playerSetHealthTo() {
+        Player player = new Player(gameMap.getCell(1, 1));
+        player.setHealth(999);
+        assertEquals(999, player.getHealth());
+    }
+
 
 }

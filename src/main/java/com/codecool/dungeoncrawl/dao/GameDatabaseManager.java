@@ -56,6 +56,9 @@ public class GameDatabaseManager {
         System.out.println(playerDao.getAll());
         return playerDao.getAll();
     }
+    public PlayerModel getPlayer(int id){
+        return playerDao.get(id);
+    }
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();

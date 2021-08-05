@@ -11,6 +11,7 @@ public class PlayerModel extends BaseModel {
     private int hp;
     private int x;
     private int y;
+    private int id;
     private ArrayList<Items> playerInventory;
 
     public PlayerModel(String playerName, int x, int y) {
@@ -66,5 +67,15 @@ public class PlayerModel extends BaseModel {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

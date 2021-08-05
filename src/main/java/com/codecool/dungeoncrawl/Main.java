@@ -134,6 +134,7 @@ public class Main extends Application {
             Button cancelBtn = new Button("Cancel");
             ListView<String> saveContainers = new ListView<>();
             List<PlayerModel>pms = gm.getAllPlayer();
+            System.out.println(gm.getPlayer(25));
             for (int i = 0; i <pms.size() ; i++) {
                 saveContainers.getItems().add(pms.get(i).getPlayerName());
             }
@@ -142,7 +143,16 @@ public class Main extends Application {
 
             //Button events
             loadBtn.setOnAction(value -> {
-                ObservableList<String> options = saveContainers.getSelectionModel().getSelectedItems();
+                startButton.fire();
+                map.getPlayer().getCell().setActor(null);
+                PlayerModel tmp = pms.get(saveContainers.getSelectionModel().getSelectedIndex());
+                map.getPlayer().setHealth(tmp.getHp());
+                map.getPlayer().setName(tmp.getPlayerName());
+                nameLabel.setText(tmp.getPlayerName());
+                map.getPlayer().setCell(map.getCell(tmp.getX(),tmp.getY()));
+                map.getPlayer().move(map.getPlayer().getCell());
+                refresh();
+                confirmWindow.close();
 
             });
             //Button events

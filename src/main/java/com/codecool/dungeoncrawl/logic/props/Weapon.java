@@ -9,12 +9,20 @@ public class Weapon extends Items {
     private String name;
     private int Damage;
     Random random = new Random();
+    private Cell cell;
 
     public Weapon(Cell cell, String name) {
         super(cell);
         setName(name);
         setDamage(random.nextInt(10));
     }
+    public Weapon(String name, int damage){
+        super();
+        this.name = name;
+        this.setDamage(damage);
+    }
+
+
 
     public int getDamage() {
         return Damage;

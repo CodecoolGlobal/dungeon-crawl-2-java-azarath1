@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.props.Items;
+import com.codecool.dungeoncrawl.logic.props.Key;
 import com.codecool.dungeoncrawl.logic.props.Weapon;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public abstract class Characters extends Actor {
             cell = nextCell;
             cell.getDoor().setOpen(true);
             Items removable = inventory.stream()
-                    .filter(x -> x.getName() == "Key")
+                    .filter(x -> x instanceof Key)
                     .findFirst()
                     .get();
             removeFromInventory(removable);

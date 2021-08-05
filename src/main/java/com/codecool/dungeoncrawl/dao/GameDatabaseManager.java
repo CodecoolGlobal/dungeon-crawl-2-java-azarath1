@@ -59,6 +59,9 @@ public class GameDatabaseManager {
     public PlayerModel getPlayer(int id){
         return playerDao.get(id);
     }
+    public List<InventoryModel>getInventoryForPlayer(int id){
+        return inventoryDao.getAll(id);
+    }
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();

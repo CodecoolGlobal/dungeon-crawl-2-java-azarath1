@@ -10,6 +10,9 @@ public class Key extends Items {
         super(cell);
         setName(name);
     }
+    public Key(String name){
+        setName(name);
+    }
 
     @Override
     public String getName() {

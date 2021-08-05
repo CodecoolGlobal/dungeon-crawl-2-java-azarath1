@@ -14,4 +14,8 @@ public abstract class Items extends Actor {
 
     }
 
+
+    public Items() {
+        super();
+    }
 }

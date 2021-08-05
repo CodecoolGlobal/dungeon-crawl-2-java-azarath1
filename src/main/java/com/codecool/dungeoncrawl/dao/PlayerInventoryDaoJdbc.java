@@ -58,7 +58,22 @@ public class PlayerInventoryDaoJdbc implements InventoryDao {
     }
 
     @Override
-    public List<PlayerModel> getAll() {
-        return null;
+    public List<InventoryModel> getAll(int id) {
+        List<InventoryModel> inventoryContent = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT item_name, object_name, amount from player join inventory i on player.id = i.player_id WHERE player.id = ?";
+            PreparedStatement prep = conn.prepareStatement(sql);
+            prep.setInt(1,id);
+            ResultSet rs = prep.executeQuery();
+            while (rs.next()){
+                InventoryModel im = new InventoryModel(rs.getString("item_name"),rs.getString("object_name"),rs.getInt("amount"));
+                inventoryContent.add(im);
+            }
+            return inventoryContent;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

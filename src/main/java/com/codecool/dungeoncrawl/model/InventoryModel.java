@@ -15,6 +15,11 @@ public class InventoryModel extends BaseModel {
         amount = decideAmount(item);
     }
 
+    public InventoryModel(String item_name, String objectname, int amount) {
+        this.item_name = item_name;
+        this.objectname = objectname;
+        this.amount = amount;
+    }
 
     public String getItem_name() {
         return item_name;

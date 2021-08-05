@@ -9,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.props.Items;
+import com.codecool.dungeoncrawl.model.InventoryModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -151,6 +152,8 @@ public class Main extends Application {
                 nameLabel.setText(tmp.getPlayerName());
                 map.getPlayer().setCell(map.getCell(tmp.getX(),tmp.getY()));
                 map.getPlayer().move(map.getPlayer().getCell());
+                map.getPlayer().setInventory(map.getPlayer().reConstructInventory(gm.getInventoryForPlayer(tmp.getId())));
+                map.getPlayer().setDamage(map.getPlayer().getMostPowerfulWeaponAttack());
                 refresh();
                 confirmWindow.close();
 

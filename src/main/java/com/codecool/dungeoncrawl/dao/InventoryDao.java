@@ -14,5 +14,5 @@ public interface InventoryDao {
 
     PlayerModel get(int id);
 
-    List<PlayerModel> getAll();
+    List<InventoryModel> getAll(int id);
 }
